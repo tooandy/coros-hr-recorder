@@ -1,0 +1,21 @@
+.gradle/
+build/
+app/build/
+local.properties
+.idea/
+*.iml
+.tools/
+.DS_Store
+
+# Never accidentally commit personal exercise sessions or signing credentials
+*.csv
+*.fit
+*.apk
+*.aab
+*.keystore
+*.jks
+*.p12
+*.pem
+.env
+.env.*
+*.log

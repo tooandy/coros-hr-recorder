@@ -1,0 +1,279 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+  <string name="ui_sessions_export" formatted="false">Sessions · Export</string>
+  <string name="ui_stop_ble_diagnostics_before_recording" formatted="false">Stop BLE diagnostics before recording</string>
+  <string name="ui_export_raw_csv" formatted="false">Export raw CSV</string>
+  <string name="ui_text_2f_m_step" formatted="false">%.2f m/step</string>
+  <string name="ui_overlapping_interval" formatted="false">Overlapping interval</string>
+  <string name="ui_no_recordings_yet" formatted="false">No recordings yet</string>
+  <string name="ui_not_started" formatted="false">not started</string>
+  <string name="ui_unnamed_ble_device" formatted="false">Unnamed BLE device</string>
+  <string name="ui_file_exceeds_32_mb_limit" formatted="false">File exceeds 32 MB limit</string>
+  <string name="ui_recording" formatted="false">Recording</string>
+  <string name="ui_bluetooth_scanner_unavailable" formatted="false">Bluetooth scanner unavailable</string>
+  <string name="ui_weloop_0_nordic_0_coros_0_reference_hr_0" formatted="false">Weloop 0 · Nordic 0 · COROS 0 · Reference HR 0</string>
+  <string name="ui_enabled_every" formatted="false">Enabled: every </string>
+  <string name="ui_standard_hr_service_180d_2a37_missing" formatted="false">Standard HR service 180D/2A37 missing</string>
+  <string name="ui_min" formatted="false"> min</string>
+  <string name="ui_cannot_save_diagnostics" formatted="false">Cannot save diagnostics: </string>
+  <string name="ui_tts_engine_unavailable_check_system_speech_set" formatted="false">TTS engine unavailable; check system speech settings</string>
+  <string name="ui_diagnostics_not_started" formatted="false">Diagnostics: not started</string>
+  <string name="ui_select_at_least_one_file" formatted="false">Select at least one file</string>
+  <string name="ui_failed_to_request_battery_read" formatted="false">Failed to request battery read</string>
+  <string name="ui_initializing_speech_engine" formatted="false">Initializing speech engine</string>
+  <string name="ui_disconnected" formatted="false">Disconnected</string>
+  <string name="ui_speech_engine_unavailable_check_tts_settings" formatted="false">Speech engine unavailable; check TTS settings</string>
+  <string name="ui_some_fitness_permissions_denied_only_authorize" formatted="false">Some fitness permissions denied: only authorized sensors</string>
+  <string name="ui_today" formatted="false">Today</string>
+  <string name="ui_spm" formatted="false"> spm</string>
+  <string name="ui_export_latest_diagnostics_csv" formatted="false">Export latest diagnostics CSV</string>
+  <string name="ui_characteristic" formatted="false">  Characteristic </string>
+  <string name="ui_not_a_fit_csv_file" formatted="false">: not a FIT/CSV file</string>
+  <string name="ui_step_sensor_not_available" formatted="false">Step sensor not available</string>
+  <string name="ui_previously_connected_heart_rate_sensor" formatted="false">Previously connected heart rate sensor</string>
+  <string name="ui_no_bluetooth_services_discovered" formatted="false">No Bluetooth services discovered</string>
+  <string name="ui_fixes" formatted="false">fixes</string>
+  <string name="ui_scan_again" formatted="false">Scan again</string>
+  <string name="ui_voice" formatted="false">Voice: </string>
+  <string name="ui_current_heart_rate" formatted="false">Current heart rate </string>
+  <string name="ui_when_comparing_watch_optical_heart_rate_do_not" formatted="false">When comparing watch optical heart rate, do not connect the sensor to the watch during the activity.</string>
+  <string name="ui_heart_rate_logging_fit_csv" formatted="false">Heart rate logging · FIT / CSV</string>
+  <string name="ui_hr_subscription_failed" formatted="false">HR subscription failed</string>
+  <string name="ui_live_heart_rate" formatted="false">Live heart rate</string>
+  <string name="ui_save_failed_check_session_data" formatted="false">Save failed; check session data</string>
+  <string name="ui_log_write_failure" formatted="false">Log write failure</string>
+  <string name="ui_write_error" formatted="false">Write error: </string>
+  <string name="ui_subscription_still_active_retry" formatted="false">Subscription still active; retry</string>
+  <string name="ui_scanning_12_seconds" formatted="false">Scanning (12 seconds)…</string>
+  <string name="ui_gps_and_steps_are_recorded_only_during_a_sessi" formatted="false">GPS and steps are recorded only during a session. Data stays on the phone. Accuracy depends on placement and carrying position.</string>
+  <string name="ui_comparison_csv_exported" formatted="false">Comparison CSV exported</string>
+  <string name="ui_text_3_private_channels_subscribed" formatted="false">/3 private channels subscribed</string>
+  <string name="ui_timer_starts_with_recording_stops_when_recordi" formatted="false">Timer starts with recording. Stops when recording stops. Stale readings over 15 seconds or disconnected data are never spoken.</string>
+  <string name="ui_could_not_create_session" formatted="false">Could not create session: </string>
+  <string name="ui_local_n" formatted="false"> (local)\n</string>
+  <string name="ui_cannot_start_step_sensor" formatted="false">Cannot start step sensor</string>
+  <string name="ui_checking_battery_service" formatted="false">Checking battery service</string>
+  <string name="ui_entire_timeline" formatted="false">Entire timeline</string>
+  <string name="ui_refresh_sensor_battery" formatted="false">Refresh sensor battery</string>
+  <string name="ui_saved" formatted="false">; saved </string>
+  <string name="ui_search_date_or_file_name" formatted="false">Search date or file name</string>
+  <string name="ui_voice_ready" formatted="false">Voice ready</string>
+  <string name="ui_nonly_removes_the_app_copy_not_the_original_fi" formatted="false">\nOnly removes the app copy, not the original file.</string>
+  <string name="ui_accuracy_0f_m" formatted="false"> (accuracy %.0f m)</string>
+  <string name="ui_session_saved_fit_export_is_available" formatted="false">Session saved; FIT export is available</string>
+  <string name="ui_speech_test_started_check_media_volume" formatted="false">Speech test started; check media volume</string>
+  <string name="ui_bluetooth_disabled" formatted="false">Bluetooth disabled</string>
+  <string name="ui_gps_turned_off" formatted="false">GPS turned off</string>
+  <string name="ui_delete" formatted="false">Delete</string>
+  <string name="ui_zoom_out" formatted="false">－ Zoom out</string>
+  <string name="ui_refresh" formatted="false">Refresh</string>
+  <string name="ui_export_failed" formatted="false">Export failed: </string>
+  <string name="ui_connecting" formatted="false">Connecting: </string>
+  <string name="ui_auto_connect_and_start_recording_when_opening" formatted="false">Auto-connect and start recording when opening the app</string>
+  <string name="ui_gps_off_steps_off" formatted="false">GPS: off · Steps: off</string>
+  <string name="ui_saved_3ac430" formatted="false">Saved </string>
+  <string name="ui_found" formatted="false">Found </string>
+  <string name="ui_steps_write_error" formatted="false">Steps write error: </string>
+  <string name="ui_connection_lost" formatted="false">Connection lost</string>
+  <string name="ui_disconnected_3ed415" formatted="false">Disconnected</string>
+  <string name="ui_no_standard_battery_service" formatted="false">No standard battery service</string>
+  <string name="ui_cannot_create_diagnostics_file" formatted="false">Cannot create diagnostics file: </string>
+  <string name="ui_start_60_second_diagnostics" formatted="false">Start 60-second diagnostics</string>
+  <string name="ui_notification_permission_denied_speech_may_work" formatted="false">Notification permission denied: speech may work, but notifications are hidden</string>
+  <string name="ui_selected" formatted="false">Selected: </string>
+  <string name="ui_no_diagnostics_csv_to_export" formatted="false">No diagnostics CSV to export</string>
+  <string name="ui_hrv_research_passive_ble_diagnostics" formatted="false">HRV research: passive BLE diagnostics</string>
+  <string name="ui_voice_initialization_failed_notifications_stil" formatted="false">Voice initialization failed; notifications still available</string>
+  <string name="ui_connection_error" formatted="false">Connection error: </string>
+  <string name="ui_periodic_heart_rate_reminders" formatted="false">Periodic heart rate reminders</string>
+  <string name="ui_sensor_battery_disconnected" formatted="false">Sensor battery: -- (disconnected)</string>
+  <string name="ui_precise_location_permission_denied" formatted="false">Precise location permission denied</string>
+  <string name="ui_diagnostics" formatted="false">Diagnostics: </string>
+  <string name="ui_subscription_write_failed" formatted="false">Subscription write failed: </string>
+  <string name="ui_speech_language_missing_install_voice_language" formatted="false">Speech language missing; install voice language in system TTS settings</string>
+  <string name="ui_some_fitness_permissions_denied_recording_only" formatted="false">Some fitness permissions denied: recording only authorized sensors</string>
+  <string name="ui_sensor_battery" formatted="false">Sensor battery: -- (</string>
+  <string name="ui_fixes_4c6783" formatted="false">fixes)</string>
+  <string name="ui_cancel" formatted="false">Cancel</string>
+  <string name="ui_export_comparison_csv" formatted="false">Export comparison CSV</string>
+  <string name="ui_turn_on_bluetooth" formatted="false">Turn on Bluetooth</string>
+  <string name="ui_gps_write_error" formatted="false">GPS write error: </string>
+  <string name="ui_sessions_search_to_filter_older_entries" formatted="false"> sessions; search to filter older entries</string>
+  <string name="ui_no_service_details_yet" formatted="false">No service details yet</string>
+  <string name="ui_not_selected" formatted="false">Not selected</string>
+  <string name="ui_cannot_open_destination_file" formatted="false">Cannot open destination file</string>
+  <string name="ui_battery_characteristic_is_not_readable" formatted="false">Battery characteristic is not readable</string>
+  <string name="ui_subscribed" formatted="false"> · subscribed </string>
+  <string name="ui_service_stopped" formatted="false">Service stopped</string>
+  <string name="ui_yesterday" formatted="false">Yesterday</string>
+  <string name="ui_missing_device_address_or_bluetooth_permission" formatted="false">Missing device address or Bluetooth permission</string>
+  <string name="ui_minutes" formatted="false"> minutes</string>
+  <string name="ui_stop_early_and_save" formatted="false">Stop early and save</string>
+  <string name="ui_hr_sessions_up_to" formatted="false">HR sessions · up to </string>
+  <string name="ui_ble_gatt_diagnostics" formatted="false">BLE GATT diagnostics</string>
+  <string name="ui_absolute_time" formatted="false">Absolute time</string>
+  <string name="ui_reminder_running_every" formatted="false">Reminder running · every </string>
+  <string name="ui_loading_sessions" formatted="false">Loading sessions…</string>
+  <string name="ui_reading" formatted="false">Reading</string>
+  <string name="ui_sessions_showing" formatted="false"> sessions / showing </string>
+  <string name="ui_subscribing_to_private_notify_channels" formatted="false">Subscribing to private notify channels</string>
+  <string name="ui_heart_rate_sensor_connection" formatted="false">Heart rate sensor connection</string>
+  <string name="ui_coros_heart_rate_recorder" formatted="false">COROS Heart Rate Recorder</string>
+  <string name="ui_waiting_for_sensor" formatted="false">Waiting for sensor</string>
+  <string name="ui_same_time_of_day" formatted="false">Same time of day</string>
+  <string name="ui_waiting_for_gps_fix" formatted="false">Waiting for GPS fix</string>
+  <string name="ui_reading_file" formatted="false">Reading file…</string>
+  <string name="ui_minutes_6c3efb" formatted="false"> minutes</string>
+  <string name="ui_speech_unavailable_notifications_still_availab" formatted="false">Speech unavailable; notifications still available</string>
+  <string name="ui_status_disconnected" formatted="false">Status: disconnected</string>
+  <string name="ui_invalid_device_address" formatted="false">Invalid device address</string>
+  <string name="ui_delete_imported_copy" formatted="false">Delete imported copy</string>
+  <string name="ui_device_disconnected" formatted="false">Device: disconnected</string>
+  <string name="ui_saved_6f6311" formatted="false">Saved:</string>
+  <string name="ui_bluetooth" formatted="false">Bluetooth</string>
+  <string name="ui_maximum_20_files_per_import" formatted="false">Maximum 20 files per import</string>
+  <string name="ui_no_heart_rate_recordings" formatted="false">No heart rate recordings</string>
+  <string name="ui_no_common_time_range_with_this_alignment" formatted="false">No common time range with this alignment</string>
+  <string name="ui_delete_failed" formatted="false">Delete failed</string>
+  <string name="ui_some_files_failed_to_import" formatted="false">Some files failed to import</string>
+  <string name="ui_minutes_while_recording" formatted="false"> minutes while recording</string>
+  <string name="ui_start_recording" formatted="false">● Start recording</string>
+  <string name="ui_files" formatted="false"> files</string>
+  <string name="ui_stopped" formatted="false">Stopped</string>
+  <string name="ui_show_latest_20_only" formatted="false">Show latest 20 only</string>
+  <string name="ui_battery_read_error" formatted="false">Battery read error: </string>
+  <string name="ui_landscape_fit_history_comparison" formatted="false">📈 Landscape FIT / history comparison</string>
+  <string name="ui_speech_test_failed_check_tts_engine" formatted="false">Speech test failed; check TTS engine</string>
+  <string name="ui_export_window_exceeds_48_hours_zoom_in_or_choo" formatted="false">Export window exceeds 48 hours. Zoom in or choose overlap.</string>
+  <string name="ui_also_record_phone_steps_cadence_estimated_stri" formatted="false">Also record phone steps (cadence, estimated stride)</string>
+  <string name="ui_open_background_battery_settings" formatted="false">Open background battery settings</string>
+  <string name="ui_copy_ble_service_diagnostics" formatted="false">Copy BLE service diagnostics</string>
+  <string name="ui_connect_sensor_and_stop_recording_before_diagn" formatted="false">Connect sensor and stop recording before diagnostics</string>
+  <string name="ui_minutes_next_in" formatted="false"> minutes · next in </string>
+  <string name="ui_waiting_for_first_announcement" formatted="false">Waiting for first announcement</string>
+  <string name="ui_back_to_sessions" formatted="false">← Back to sessions</string>
+  <string name="ui_connected_discovering_services" formatted="false">Connected; discovering services</string>
+  <string name="ui_hr_samples" formatted="false"> HR samples</string>
+  <string name="ui_tap_to_inspect_drag_to_scrub_pinch_to_zoom_swi" formatted="false">Tap to inspect · drag to scrub · pinch to zoom · swipe to pan · double tap to zoom · no synthetic samples</string>
+  <string name="ui_gps_ready_filtered" formatted="false">GPS ready · filtered </string>
+  <string name="ui_waiting" formatted="false">waiting</string>
+  <string name="ui_fit_encoded" formatted="false">FIT encoded: </string>
+  <string name="ui_physical_activity_permission_missing" formatted="false">Physical activity permission missing</string>
+  <string name="ui_listening" formatted="false">Listening: </string>
+  <string name="ui_zoom_in" formatted="false">＋ Zoom in</string>
+  <string name="ui_gps_disabled_check_location_settings" formatted="false">GPS disabled; check Location settings</string>
+  <string name="ui_voice_not_tested" formatted="false">Voice: not tested</string>
+  <string name="ui_stop_recording_first" formatted="false">Stop recording first</string>
+  <string name="ui_also_record_phone_gps_route_distance_pace" formatted="false">Also record phone GPS (route, distance, pace)</string>
+  <string name="ui_beats_per_minute" formatted="false"> beats per minute</string>
+  <string name="ui_export_fit_activity" formatted="false">Export FIT activity</string>
+  <string name="ui_off" formatted="false">Off</string>
+  <string name="ui_requested_voice_language_unavailable_notificat" formatted="false">Requested voice language unavailable; notifications still available</string>
+  <string name="ui_heart_rate_data_collection" formatted="false">Heart rate data collection</string>
+  <string name="ui_tap_chart_to_see_aligned_heart_rates_pinch_to" formatted="false">Tap chart to see aligned heart rates; pinch to zoom, drag to pan, long press to scrub.</string>
+  <string name="ui_speak_heart_rate_and_notify_every_n_minutes_wh" formatted="false">Speak heart rate and notify every N minutes while recording</string>
+  <string name="ui_bluetooth_permission_missing" formatted="false">Bluetooth permission missing</string>
+  <string name="ui_subscribe_timeout_disconnect_and_retry" formatted="false">Subscribe timeout; disconnect and retry</string>
+  <string name="ui_stop_and_save" formatted="false">■ Stop and save</string>
+  <string name="ui_maximum_overlays" formatted="false">Maximum overlays: </string>
+  <string name="ui_voice_not_tested_948c20" formatted="false">Voice not tested</string>
+  <string name="ui_diagnostics_file_missing_run_again" formatted="false">Diagnostics file missing; run again</string>
+  <string name="ui_gps_start_error" formatted="false">GPS start error: </string>
+  <string name="ui_reminders_off" formatted="false">Reminders off</string>
+  <string name="ui_recording_heart_rate" formatted="false">Recording heart rate</string>
+  <string name="ui_last_sensor_remembered_after_first_connection" formatted="false">Last sensor: remembered after first connection</string>
+  <string name="ui_reminder_not_started" formatted="false">Reminder: not started</string>
+  <string name="ui_sensor_battery_9fe496" formatted="false">Sensor battery: </string>
+  <string name="ui_remaining" formatted="false"> · remaining </string>
+  <string name="ui_import_fit_or_select_recorded_sessions" formatted="false">Import FIT or select recorded sessions</string>
+  <string name="ui_device_disconnected_a1a893" formatted="false">Device disconnected</string>
+  <string name="ui_periodic_hr_reminder_every" formatted="false">Periodic HR reminder · every </string>
+  <string name="ui_more_than_100_files_showing_latest_100" formatted="false">More than 100 files; showing latest 100</string>
+  <string name="ui_clear_all" formatted="false">Clear all</string>
+  <string name="ui_sec" formatted="false">sec · </string>
+  <string name="ui_import_fit_csv" formatted="false">＋ Import FIT/CSV</string>
+  <string name="ui_no_overlap_in_this_alignment_showing_complete" formatted="false">No overlap in this alignment; showing complete sessions</string>
+  <string name="ui_step_sensor_error" formatted="false">Step sensor error: </string>
+  <string name="ui_heart_rate_unavailable_reminder_skipped" formatted="false">Heart rate unavailable; reminder skipped</string>
+  <string name="ui_heart_rate" formatted="false">Heart rate: </string>
+  <string name="ui_subscribed_to_hr_notifications" formatted="false">Subscribed to HR notifications</string>
+  <string name="ui_wait_for_diagnostics_to_finish" formatted="false">Wait for diagnostics to finish</string>
+  <string name="ui_wait_until_hr_subscription_is_ready" formatted="false">Wait until HR subscription is ready</string>
+  <string name="ui_imported" formatted="false">Imported </string>
+  <string name="ui_denoising" formatted="false">Denoising: </string>
+  <string name="ui_save_failed" formatted="false">Save failed: </string>
+  <string name="ui_bluetooth_scan_error" formatted="false">Bluetooth scan error: </string>
+  <string name="ui_show_all" formatted="false">Show all </string>
+  <string name="ui_bluetooth_permission_denied_cannot_reconnect" formatted="false">Bluetooth permission denied: cannot reconnect</string>
+  <string name="ui_recording_controls" formatted="false">Recording controls</string>
+  <string name="ui_save_reminder_interval" formatted="false">Save reminder interval</string>
+  <string name="ui_scan_for_nearby_bluetooth_devices" formatted="false">Scan for nearby Bluetooth devices</string>
+  <string name="ui_cannot_read_file" formatted="false">Cannot read file</string>
+  <string name="ui_subscribing" formatted="false">Subscribing: </string>
+  <string name="ui_filtered" formatted="false"> (filtered </string>
+  <string name="ui_files_could_not_be_read" formatted="false"> files could not be read: </string>
+  <string name="ui_ble_service_details_copied_to_clipboard" formatted="false">BLE service details copied to clipboard</string>
+  <string name="ui_last_sensor" formatted="false">Last sensor:</string>
+  <string name="ui_waiting_for_step_sensor" formatted="false">Waiting for step sensor</string>
+  <string name="ui_sessions_selected" formatted="false"> sessions / selected </string>
+  <string name="ui_sessions" formatted="false"> sessions</string>
+  <string name="ui_status" formatted="false">Status:</string>
+  <string name="ui_all_dates" formatted="false">All dates</string>
+  <string name="ui_refreshed_timestamps_are_shown_in_local_time" formatted="false">Refreshed; timestamps are shown in local time</string>
+  <string name="ui_notifications" formatted="false"> notifications</string>
+  <string name="ui_service" formatted="false">Service </string>
+  <string name="ui_export_successful" formatted="false">Export successful</string>
+  <string name="ui_gps_s_distance_2f_km_pace_s_s_nsteps_s_d_steps" formatted="false">GPS: %s · Distance %.2f km · Pace %s%s\nSteps: %s · %d steps · Cadence %s · Est. stride %s</string>
+  <string name="ui_battery_read_failed_gatt" formatted="false">Battery read failed (GATT </string>
+  <string name="ui_got_it" formatted="false">Got it</string>
+  <string name="ui_connecting_copy_diagnostics_shortly" formatted="false">Connecting. Copy diagnostics shortly.</string>
+  <string name="ui_device" formatted="false">Device:</string>
+  <string name="ui_no_sensor_remembered_yet" formatted="false">No sensor remembered yet</string>
+  <string name="ui_subscription_write_failed_d12a4d" formatted="false">Subscription write failed</string>
+  <string name="ui_align" formatted="false">  Align: </string>
+  <string name="ui_waiting_for_heart_rate_subscription" formatted="false">Waiting for heart rate subscription</string>
+  <string name="ui_properties" formatted="false"> Properties=</string>
+  <string name="ui_sessions_selected_d4364a" formatted="false"> sessions / selected </string>
+  <string name="ui_please_grant_bluetooth_permission" formatted="false">Please grant Bluetooth permission</string>
+  <string name="ui_reference_hr" formatted="false"> · reference HR </string>
+  <string name="ui_voice_test_current_heart_rate_one_hundred_fort" formatted="false">Voice test. Current heart rate: one hundred forty-five beats per minute.</string>
+  <string name="ui_local" formatted="false"> · local</string>
+  <string name="ui_export_error" formatted="false">Export error: </string>
+  <string name="ui_sec_d9ad50" formatted="false"> sec</string>
+  <string name="ui_unknown" formatted="false">unknown</string>
+  <string name="ui_bluetooth_lost_reconnecting" formatted="false">Bluetooth lost; reconnecting</string>
+  <string name="ui_invalid_battery_data_received" formatted="false">Invalid battery data received</string>
+  <string name="ui_select_latest_2" formatted="false">Select latest 2</string>
+  <string name="ui_test_spoken_reminder" formatted="false">🔊 Test spoken reminder</string>
+  <string name="ui_refresh_sessions" formatted="false">↻ Refresh sessions</string>
+  <string name="ui_reminder_interval_n_minutes_1_120" formatted="false">Reminder interval N (minutes, 1–120)</string>
+  <string name="ui_importing" formatted="false">Importing…</string>
+  <string name="ui_reminded" formatted="false">Reminded: </string>
+  <string name="ui_hr_subscription_error" formatted="false">HR subscription error: </string>
+  <string name="ui_saved_0_samples" formatted="false">Saved: 0 samples</string>
+  <string name="ui_step_sensor_active" formatted="false">Step sensor active</string>
+  <string name="ui_speech_test_queued_check_media_volume" formatted="false">Speech test queued; check media volume</string>
+  <string name="ui_log_write_failure_e5b669" formatted="false">Log write failure: </string>
+  <string name="ui_bluetooth_connection_closed" formatted="false">Bluetooth connection closed</string>
+  <string name="ui_disconnect" formatted="false">Disconnect</string>
+  <string name="ui_sessions_eb8c2d" formatted="false"> sessions</string>
+  <string name="ui_delete_this_imported_session" formatted="false">Delete this imported session?</string>
+  <string name="ui_battery_read_timed_out_retry" formatted="false">Battery read timed out (retry)</string>
+  <string name="ui_some_permissions_denied_only_authorized_sensor" formatted="false">Some permissions denied: only authorized sensor data and heart rate</string>
+  <string name="ui_align_from_start" formatted="false">Align from start</string>
+  <string name="ui_subscribes_to_three_proprietary_notify_charact" formatted="false">Subscribes to three proprietary notify characteristics. No vendor commands sent. Raw data saved after 60 seconds.</string>
+  <string name="ui_selected_f24ddc" formatted="false">Selected</string>
+  <string name="ui_disconnected_f2f3e9" formatted="false">Disconnected</string>
+  <string name="ui_text_60_second_capture_finished" formatted="false">60-second capture finished</string>
+  <string name="ui_failed_to_close_session" formatted="false">Failed to close session: </string>
+  <string name="ui_fixes_f625b3" formatted="false"> fixes)</string>
+  <string name="ui_ok" formatted="false">OK</string>
+  <string name="ui_stopped_manually" formatted="false">Stopped manually</string>
+  <string name="ui_speech_failed_check_tts_engine" formatted="false">Speech failed; check TTS engine</string>
+  <string name="ui_last_7_days" formatted="false">Last 7 days</string>
+  <string name="ui_cannot_create_activity_data_directory" formatted="false">Cannot create activity data directory</string>
+  <string name="ui_ntotal" formatted="false"> \nTotal: </string>
+  <string name="ui_select_a_session_or_import_fit_data" formatted="false">Select a session or import FIT data</string>
+  <string name="ui_saved_every" formatted="false">Saved: every </string>
+  <string name="app_name">COROS HR Recorder</string>
+</resources>

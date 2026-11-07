@@ -1,0 +1,71 @@
+name: Android CI / Release
+
+on:
+  push:
+    branches: [main]
+    tags: ['v*']
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+      - name: Set up Android SDK
+        uses: android-actions/setup-android@v3
+      - name: Install Android 36 SDK
+        run: sdkmanager "platforms;android-36" "build-tools;36.0.0" "platform-tools"
+      - uses: gradle/actions/setup-gradle@v4
+      - name: Verify i18n resource completeness
+        run: python3 scripts/check_locales.py
+      - name: Compile app and download FIT SDK
+        run: ./gradlew --no-daemon :app:compileDebugJavaWithJavac
+      - name: Offline JVM smoke tests
+        run: bash scripts/test.sh
+      - name: Build universal Android APK (arm64-v8a, armeabi-v7a, x86, x86_64)
+        run: ./gradlew --no-daemon assembleDebug
+      - name: Verify ABI-independence and compute SHA256
+        run: |
+          APK=app/build/outputs/apk/debug/app-debug.apk
+          test -s "$APK"
+          if unzip -Z1 "$APK" | grep -Eq '^lib/[^/]+/[^/]+\.so$'; then
+            echo "Native libraries detected: verify ABI coverage before publishing."
+            exit 1
+          fi
+          sha256sum "$APK" | tee apk-sha256.txt
+          cp "$APK" COROS-HR-universal-debug.apk
+      - name: Upload test APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: COROS-HR-universal-debug
+          path: |
+            COROS-HR-universal-debug.apk
+            apk-sha256.txt
+          if-no-files-found: error
+          retention-days: 30
+      - name: Publish GitHub Release (version tag only)
+        if: startsWith(github.ref, 'refs/tags/v')
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          VERSION="$GITHUB_REF_NAME"
+          NOTES="docs/releases/$VERSION.md"
+          test -f "$NOTES" || { echo "Missing release notes: $NOTES"; exit 1; }
+          cp COROS-HR-universal-debug.apk "COROS-HR-$VERSION-universal-debug.apk"
+          gh release create "$VERSION" \
+            "COROS-HR-$VERSION-universal-debug.apk" apk-sha256.txt \
+            --title "COROS HR Recorder $VERSION" --notes-file "$NOTES" \
+            --verify-tag
+    permissions:
+      contents: write

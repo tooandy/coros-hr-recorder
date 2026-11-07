@@ -1,0 +1,279 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+  <string name="ui_sessions_export" formatted="false">记录查看 · 文件导出</string>
+  <string name="ui_stop_ble_diagnostics_before_recording" formatted="false">先结束私有 BLE 诊断再开始记录</string>
+  <string name="ui_export_raw_csv" formatted="false">导出原始 CSV</string>
+  <string name="ui_text_2f_m_step" formatted="false">%.2f m/步</string>
+  <string name="ui_overlapping_interval" formatted="false">重合区间</string>
+  <string name="ui_no_recordings_yet" formatted="false">尚无采集数据</string>
+  <string name="ui_not_started" formatted="false">未开始</string>
+  <string name="ui_unnamed_ble_device" formatted="false">未命名 BLE 设备</string>
+  <string name="ui_file_exceeds_32_mb_limit" formatted="false">文件超过32 MB限制</string>
+  <string name="ui_recording" formatted="false">正在记录</string>
+  <string name="ui_bluetooth_scanner_unavailable" formatted="false">未找到蓝牙扫描器</string>
+  <string name="ui_weloop_0_nordic_0_coros_0_reference_hr_0" formatted="false">Weloop 0 · Nordic 0 · COROS 0 · 心率对照 0</string>
+  <string name="ui_enabled_every" formatted="false">已开启，开始记录后每 </string>
+  <string name="ui_standard_hr_service_180d_2a37_missing" formatted="false">未发现标准心率服务 180D/2A37</string>
+  <string name="ui_min" formatted="false">分</string>
+  <string name="ui_cannot_save_diagnostics" formatted="false">保存诊断失败：</string>
+  <string name="ui_tts_engine_unavailable_check_system_speech_set" formatted="false">无法启动语音引擎，请检查系统文字转语音设置</string>
+  <string name="ui_diagnostics_not_started" formatted="false">诊断状态：未开始</string>
+  <string name="ui_select_at_least_one_file" formatted="false">请至少勾选一个文件</string>
+  <string name="ui_failed_to_request_battery_read" formatted="false">发起电量读取失败</string>
+  <string name="ui_initializing_speech_engine" formatted="false">正在初始化中文语音引擎</string>
+  <string name="ui_disconnected" formatted="false">已断开连接</string>
+  <string name="ui_speech_engine_unavailable_check_tts_settings" formatted="false">语音服务不可用，请检查文字转语音设置</string>
+  <string name="ui_some_fitness_permissions_denied_only_authorize" formatted="false">部分运动权限未授权：仅采集已授权的数据</string>
+  <string name="ui_today" formatted="false">今天</string>
+  <string name="ui_spm" formatted="false"> 步/分</string>
+  <string name="ui_export_latest_diagnostics_csv" formatted="false">导出最新诊断 CSV</string>
+  <string name="ui_characteristic" formatted="false">  特征 </string>
+  <string name="ui_not_a_fit_csv_file" formatted="false">：不是 FIT/CSV 文件</string>
+  <string name="ui_step_sensor_not_available" formatted="false">手机没有计步传感器</string>
+  <string name="ui_previously_connected_heart_rate_sensor" formatted="false">上次的心率臂带</string>
+  <string name="ui_no_bluetooth_services_discovered" formatted="false">尚未发现蓝牙服务</string>
+  <string name="ui_fixes" formatted="false">点</string>
+  <string name="ui_scan_again" formatted="false">重新扫描蓝牙设备</string>
+  <string name="ui_voice" formatted="false">中文语音：</string>
+  <string name="ui_current_heart_rate" formatted="false">当前心率 </string>
+  <string name="ui_when_comparing_watch_optical_heart_rate_do_not" formatted="false">为比较手表光电心率，手表运动期间不要连接臂带。</string>
+  <string name="ui_heart_rate_logging_fit_csv" formatted="false">心率逐条采集 · FIT / CSV</string>
+  <string name="ui_hr_subscription_failed" formatted="false">心率通知订阅失败</string>
+  <string name="ui_live_heart_rate" formatted="false">实时心率</string>
+  <string name="ui_save_failed_check_session_data" formatted="false">保存遇到错误，请检查记录</string>
+  <string name="ui_log_write_failure" formatted="false">日志写入失败</string>
+  <string name="ui_write_error" formatted="false">写入出错：</string>
+  <string name="ui_subscription_still_active_retry" formatted="false">蓝牙订阅操作尚未完成，请稍后再试</string>
+  <string name="ui_scanning_12_seconds" formatted="false">正在扫描（12 秒）…</string>
+  <string name="ui_gps_and_steps_are_recorded_only_during_a_sessi" formatted="false">GPS 和步数仅在开始记录后采集，数据保存在手机本地。手机位置、佩戴方式会影响精度。</string>
+  <string name="ui_comparison_csv_exported" formatted="false">对比数据导出成功</string>
+  <string name="ui_text_3_private_channels_subscribed" formatted="false">/3 个私有通道订阅成功</string>
+  <string name="ui_timer_starts_with_recording_stops_when_recordi" formatted="false">从开始记录后计时；停录即停。断连或心率超过15秒未更新时，不播报过期心率。</string>
+  <string name="ui_could_not_create_session" formatted="false">无法创建记录：</string>
+  <string name="ui_local_n" formatted="false">（本地）\n</string>
+  <string name="ui_cannot_start_step_sensor" formatted="false">无法启动计步传感器</string>
+  <string name="ui_checking_battery_service" formatted="false">正在检测电量服务</string>
+  <string name="ui_entire_timeline" formatted="false">全部时间</string>
+  <string name="ui_refresh_sensor_battery" formatted="false">刷新臂带电量</string>
+  <string name="ui_saved" formatted="false">，已保存 </string>
+  <string name="ui_search_date_or_file_name" formatted="false">搜索日期或文件名</string>
+  <string name="ui_voice_ready" formatted="false">中文语音已就绪</string>
+  <string name="ui_nonly_removes_the_app_copy_not_the_original_fi" formatted="false">\n仅删除本 App 中的副本，不影响原始文件。</string>
+  <string name="ui_accuracy_0f_m" formatted="false">（精度 %.0f m）</string>
+  <string name="ui_session_saved_fit_export_is_available" formatted="false">记录已保存，可以选择导出 FIT</string>
+  <string name="ui_speech_test_started_check_media_volume" formatted="false">已开始试听，请检查媒体音量</string>
+  <string name="ui_bluetooth_disabled" formatted="false">蓝牙未打开</string>
+  <string name="ui_gps_turned_off" formatted="false">GPS关闭</string>
+  <string name="ui_delete" formatted="false">删除</string>
+  <string name="ui_zoom_out" formatted="false">－ 缩小</string>
+  <string name="ui_refresh" formatted="false">刷新</string>
+  <string name="ui_export_failed" formatted="false">导出失败：</string>
+  <string name="ui_connecting" formatted="false">连接中：</string>
+  <string name="ui_auto_connect_and_start_recording_when_opening" formatted="false">打开 App 时自动连接，并在成功连接后开始记录</string>
+  <string name="ui_gps_off_steps_off" formatted="false">GPS：未启用 · 计步：未启用</string>
+  <string name="ui_saved_3ac430" formatted="false">已保存 </string>
+  <string name="ui_found" formatted="false">有 </string>
+  <string name="ui_steps_write_error" formatted="false">计步写入失败：</string>
+  <string name="ui_connection_lost" formatted="false">连接中断</string>
+  <string name="ui_disconnected_3ed415" formatted="false">已断开</string>
+  <string name="ui_no_standard_battery_service" formatted="false">设备未开放标准电量服务</string>
+  <string name="ui_cannot_create_diagnostics_file" formatted="false">无法创建诊断文件：</string>
+  <string name="ui_start_60_second_diagnostics" formatted="false">开始 60 秒诊断</string>
+  <string name="ui_notification_permission_denied_speech_may_work" formatted="false">未授权通知：语音播报可继续使用，但系统通知不会显示</string>
+  <string name="ui_selected" formatted="false">已选中：</string>
+  <string name="ui_no_diagnostics_csv_to_export" formatted="false">没有可导出的诊断文件</string>
+  <string name="ui_hrv_research_passive_ble_diagnostics" formatted="false">HRV 探索：私有 BLE 被动监听</string>
+  <string name="ui_voice_initialization_failed_notifications_stil" formatted="false">语音初始化失败，保留系统通知</string>
+  <string name="ui_connection_error" formatted="false">连接错误：</string>
+  <string name="ui_periodic_heart_rate_reminders" formatted="false">定时心率提醒</string>
+  <string name="ui_sensor_battery_disconnected" formatted="false">臂带电量：--（未连接）</string>
+  <string name="ui_precise_location_permission_denied" formatted="false">未取得精确定位权限</string>
+  <string name="ui_diagnostics" formatted="false">诊断：</string>
+  <string name="ui_subscription_write_failed" formatted="false">订阅写入失败：</string>
+  <string name="ui_speech_language_missing_install_voice_language" formatted="false">中文语音包未就绪：到手机“文字转语音”设置下载中文语音</string>
+  <string name="ui_some_fitness_permissions_denied_recording_only" formatted="false">部分运动权限未授权：自动记录时仅采集已授权的数据</string>
+  <string name="ui_sensor_battery" formatted="false">臂带电量：--（</string>
+  <string name="ui_fixes_4c6783" formatted="false">点)</string>
+  <string name="ui_cancel" formatted="false">取消</string>
+  <string name="ui_export_comparison_csv" formatted="false">导出对比 CSV</string>
+  <string name="ui_turn_on_bluetooth" formatted="false">请打开蓝牙</string>
+  <string name="ui_gps_write_error" formatted="false">GPS写入失败：</string>
+  <string name="ui_sessions_search_to_filter_older_entries" formatted="false"> 条；可以用搜索筛选其他记录</string>
+  <string name="ui_no_service_details_yet" formatted="false">尚未获取服务信息</string>
+  <string name="ui_not_selected" formatted="false">未选择</string>
+  <string name="ui_cannot_open_destination_file" formatted="false">无法打开目标文件</string>
+  <string name="ui_battery_characteristic_is_not_readable" formatted="false">电量特征不可读取</string>
+  <string name="ui_subscribed" formatted="false"> · 已订阅 </string>
+  <string name="ui_service_stopped" formatted="false">服务结束</string>
+  <string name="ui_yesterday" formatted="false">昨天</string>
+  <string name="ui_missing_device_address_or_bluetooth_permission" formatted="false">缺少设备地址或蓝牙权限</string>
+  <string name="ui_minutes" formatted="false"> 分钟</string>
+  <string name="ui_stop_early_and_save" formatted="false">提前结束并保存</string>
+  <string name="ui_hr_sessions_up_to" formatted="false">心率记录  ·  最多叠加 </string>
+  <string name="ui_ble_gatt_diagnostics" formatted="false">BLE GATT 诊断</string>
+  <string name="ui_absolute_time" formatted="false">绝对时间</string>
+  <string name="ui_reminder_running_every" formatted="false">定时提醒运行中 · 每 </string>
+  <string name="ui_loading_sessions" formatted="false">加载记录…</string>
+  <string name="ui_reading" formatted="false">正在读取</string>
+  <string name="ui_sessions_showing" formatted="false"> 条记录 / 显示 </string>
+  <string name="ui_subscribing_to_private_notify_channels" formatted="false">开始订阅私有 Notify 通道</string>
+  <string name="ui_heart_rate_sensor_connection" formatted="false">心率臂带蓝牙连接</string>
+  <string name="ui_coros_heart_rate_recorder" formatted="false">COROS 心率记录器</string>
+  <string name="ui_waiting_for_sensor" formatted="false">等待设备连接</string>
+  <string name="ui_same_time_of_day" formatted="false">每天同一时刻</string>
+  <string name="ui_waiting_for_gps_fix" formatted="false">等待GPS定位</string>
+  <string name="ui_reading_file" formatted="false">读取文件中…</string>
+  <string name="ui_minutes_6c3efb" formatted="false"> 分钟提醒</string>
+  <string name="ui_speech_unavailable_notifications_still_availab" formatted="false">语音服务不可用，保留系统通知</string>
+  <string name="ui_status_disconnected" formatted="false">状态：未连接</string>
+  <string name="ui_invalid_device_address" formatted="false">设备地址无效</string>
+  <string name="ui_delete_imported_copy" formatted="false">删除导入副本</string>
+  <string name="ui_device_disconnected" formatted="false">设备：未连接</string>
+  <string name="ui_saved_6f6311" formatted="false">已保存：</string>
+  <string name="ui_bluetooth" formatted="false">蓝牙连接</string>
+  <string name="ui_maximum_20_files_per_import" formatted="false">单次最多导入20个文件</string>
+  <string name="ui_no_heart_rate_recordings" formatted="false">尚无心率记录</string>
+  <string name="ui_no_common_time_range_with_this_alignment" formatted="false">这些记录在当前对齐方式下没有共同时间段</string>
+  <string name="ui_delete_failed" formatted="false">删除失败</string>
+  <string name="ui_some_files_failed_to_import" formatted="false">部分文件导入失败</string>
+  <string name="ui_minutes_while_recording" formatted="false"> 分钟提醒一次</string>
+  <string name="ui_start_recording" formatted="false">● 开始记录</string>
+  <string name="ui_files" formatted="false"> 个文件</string>
+  <string name="ui_stopped" formatted="false">已停止</string>
+  <string name="ui_show_latest_20_only" formatted="false">只显示最近 20 条</string>
+  <string name="ui_battery_read_error" formatted="false">电量读取异常：</string>
+  <string name="ui_landscape_fit_history_comparison" formatted="false">📈 横屏 FIT / 历史心率对比</string>
+  <string name="ui_speech_test_failed_check_tts_engine" formatted="false">中文试听失败，请检查语音引擎</string>
+  <string name="ui_export_window_exceeds_48_hours_zoom_in_or_choo" formatted="false">导出范围超过48小时，请先放大或切换重合区间</string>
+  <string name="ui_also_record_phone_steps_cadence_estimated_stri" formatted="false">同时采集手机步数（步频、估算步幅）</string>
+  <string name="ui_open_background_battery_settings" formatted="false">打开应用后台电池设置</string>
+  <string name="ui_copy_ble_service_diagnostics" formatted="false">复制蓝牙服务诊断信息</string>
+  <string name="ui_connect_sensor_and_stop_recording_before_diagn" formatted="false">请先连接臂带，并停止普通心率采集</string>
+  <string name="ui_minutes_next_in" formatted="false"> 分钟 · 距下次约 </string>
+  <string name="ui_waiting_for_first_announcement" formatted="false">等待首次播报</string>
+  <string name="ui_back_to_sessions" formatted="false">← 返回记录</string>
+  <string name="ui_connected_discovering_services" formatted="false">已连接，发现服务</string>
+  <string name="ui_hr_samples" formatted="false"> 条心率数据</string>
+  <string name="ui_tap_to_inspect_drag_to_scrub_pinch_to_zoom_swi" formatted="false">单击取值 · 长按滑动取值 · 双指缩放 · 单指平移 · 双击放大 · 无数据不会插值补齐</string>
+  <string name="ui_gps_ready_filtered" formatted="false">定位正常 · 已过滤</string>
+  <string name="ui_waiting" formatted="false">待播报</string>
+  <string name="ui_fit_encoded" formatted="false">FIT 已编码：</string>
+  <string name="ui_physical_activity_permission_missing" formatted="false">缺少身体活动权限</string>
+  <string name="ui_listening" formatted="false">监听中：</string>
+  <string name="ui_zoom_in" formatted="false">＋ 放大</string>
+  <string name="ui_gps_disabled_check_location_settings" formatted="false">GPS未开启（检查手机定位开关）</string>
+  <string name="ui_voice_not_tested" formatted="false">中文语音：尚未试听</string>
+  <string name="ui_stop_recording_first" formatted="false">请先停止记录</string>
+  <string name="ui_also_record_phone_gps_route_distance_pace" formatted="false">同时采集手机 GPS（轨迹、距离、配速）</string>
+  <string name="ui_beats_per_minute" formatted="false"> 次每分钟</string>
+  <string name="ui_export_fit_activity" formatted="false">导出 FIT 活动</string>
+  <string name="ui_off" formatted="false">未启用</string>
+  <string name="ui_requested_voice_language_unavailable_notificat" formatted="false">中文语音不可用，保留系统通知</string>
+  <string name="ui_heart_rate_data_collection" formatted="false">心率蓝牙采集</string>
+  <string name="ui_tap_chart_to_see_aligned_heart_rates_pinch_to" formatted="false">点按曲线查看同一时间点的心率；双指缩放，单指拖动画面，长按拖动读数。</string>
+  <string name="ui_speak_heart_rate_and_notify_every_n_minutes_wh" formatted="false">记录中每隔 N 分钟语音播报心率，并显示通知</string>
+  <string name="ui_bluetooth_permission_missing" formatted="false">蓝牙权限不足</string>
+  <string name="ui_subscribe_timeout_disconnect_and_retry" formatted="false">订阅确认超时，建议断开重连后重试</string>
+  <string name="ui_stop_and_save" formatted="false">■ 停止并保存</string>
+  <string name="ui_maximum_overlays" formatted="false">最多叠加 </string>
+  <string name="ui_voice_not_tested_948c20" formatted="false">尚未试听中文语音</string>
+  <string name="ui_diagnostics_file_missing_run_again" formatted="false">诊断文件不存在，请重新监听</string>
+  <string name="ui_gps_start_error" formatted="false">GPS启动失败：</string>
+  <string name="ui_reminders_off" formatted="false">提醒已关闭</string>
+  <string name="ui_recording_heart_rate" formatted="false">正在记录心率</string>
+  <string name="ui_last_sensor_remembered_after_first_connection" formatted="false">上次设备：首次连接后自动记住</string>
+  <string name="ui_reminder_not_started" formatted="false">提醒：未启动</string>
+  <string name="ui_sensor_battery_9fe496" formatted="false">臂带电量：</string>
+  <string name="ui_remaining" formatted="false"> · 剩余 </string>
+  <string name="ui_import_fit_or_select_recorded_sessions" formatted="false">导入 FIT 文件，或勾选已有的本机心率记录</string>
+  <string name="ui_device_disconnected_a1a893" formatted="false">设备已断开</string>
+  <string name="ui_periodic_hr_reminder_every" formatted="false">定时心率提醒 · 每 </string>
+  <string name="ui_more_than_100_files_showing_latest_100" formatted="false">文件超过100条，暂只载入最近100条</string>
+  <string name="ui_clear_all" formatted="false">全清</string>
+  <string name="ui_sec" formatted="false">秒 · </string>
+  <string name="ui_import_fit_csv" formatted="false">＋ 导入 FIT/CSV</string>
+  <string name="ui_no_overlap_in_this_alignment_showing_complete" formatted="false">所选文件在此对齐方式下无重叠，显示各自全程</string>
+  <string name="ui_step_sensor_error" formatted="false">计步启动失败：</string>
+  <string name="ui_heart_rate_unavailable_reminder_skipped" formatted="false">心率暂不可用，已跳过播报</string>
+  <string name="ui_heart_rate" formatted="false">当前心率：</string>
+  <string name="ui_subscribed_to_hr_notifications" formatted="false">已订阅心率通知</string>
+  <string name="ui_wait_for_diagnostics_to_finish" formatted="false">请先等待诊断结束</string>
+  <string name="ui_wait_until_hr_subscription_is_ready" formatted="false">请等待心率服务订阅成功</string>
+  <string name="ui_imported" formatted="false">成功导入 </string>
+  <string name="ui_denoising" formatted="false">去噪中：</string>
+  <string name="ui_save_failed" formatted="false">保存失败：</string>
+  <string name="ui_bluetooth_scan_error" formatted="false">蓝牙扫描错误：</string>
+  <string name="ui_show_all" formatted="false">显示全部 </string>
+  <string name="ui_bluetooth_permission_denied_cannot_reconnect" formatted="false">未授权蓝牙连接，无法自动恢复上次设备</string>
+  <string name="ui_recording_controls" formatted="false">采集控制</string>
+  <string name="ui_save_reminder_interval" formatted="false">保存提醒间隔</string>
+  <string name="ui_scan_for_nearby_bluetooth_devices" formatted="false">扫描附近蓝牙设备</string>
+  <string name="ui_cannot_read_file" formatted="false">无法读取文件</string>
+  <string name="ui_subscribing" formatted="false">订阅中：</string>
+  <string name="ui_filtered" formatted="false">（过滤</string>
+  <string name="ui_files_could_not_be_read" formatted="false"> 个文件无法读取：</string>
+  <string name="ui_ble_service_details_copied_to_clipboard" formatted="false">蓝牙服务信息已复制，可粘贴到对话中</string>
+  <string name="ui_last_sensor" formatted="false">上次设备：</string>
+  <string name="ui_waiting_for_step_sensor" formatted="false">等待计步数据</string>
+  <string name="ui_sessions_selected" formatted="false"> 条记录 / 已选 </string>
+  <string name="ui_sessions" formatted="false"> 条记录</string>
+  <string name="ui_status" formatted="false">状态：</string>
+  <string name="ui_all_dates" formatted="false">全部日期</string>
+  <string name="ui_refreshed_timestamps_are_shown_in_local_time" formatted="false">已刷新；文件时间按手机本地时区显示</string>
+  <string name="ui_notifications" formatted="false"> 条通知</string>
+  <string name="ui_service" formatted="false">服务 </string>
+  <string name="ui_export_successful" formatted="false">导出成功</string>
+  <string name="ui_gps_s_distance_2f_km_pace_s_s_nsteps_s_d_steps" formatted="false">GPS：%s · 距离 %.2f km · 配速 %s%s\n计步：%s · %d 步 · 步频 %s · 估算步幅 %s</string>
+  <string name="ui_battery_read_failed_gatt" formatted="false">电量读取失败（GATT </string>
+  <string name="ui_got_it" formatted="false">知道了</string>
+  <string name="ui_connecting_copy_diagnostics_shortly" formatted="false">正在连接，请稍后复制诊断信息</string>
+  <string name="ui_device" formatted="false">设备：</string>
+  <string name="ui_no_sensor_remembered_yet" formatted="false">尚未保存已连接的心率臂带</string>
+  <string name="ui_subscription_write_failed_d12a4d" formatted="false">订阅写入失败</string>
+  <string name="ui_align" formatted="false">  对齐：</string>
+  <string name="ui_waiting_for_heart_rate_subscription" formatted="false">等待心率服务订阅</string>
+  <string name="ui_properties" formatted="false"> 属性=</string>
+  <string name="ui_sessions_selected_d4364a" formatted="false"> 条 / 已选 </string>
+  <string name="ui_please_grant_bluetooth_permission" formatted="false">请授权蓝牙权限</string>
+  <string name="ui_reference_hr" formatted="false"> · 标准心率 </string>
+  <string name="ui_voice_test_current_heart_rate_one_hundred_fort" formatted="false">中文语音测试。当前心率，一百四十五次每分钟。</string>
+  <string name="ui_local" formatted="false"> · 本机</string>
+  <string name="ui_export_error" formatted="false">导出错误：</string>
+  <string name="ui_sec_d9ad50" formatted="false"> 秒</string>
+  <string name="ui_unknown" formatted="false">未知</string>
+  <string name="ui_bluetooth_lost_reconnecting" formatted="false">蓝牙中断，尝试重连</string>
+  <string name="ui_invalid_battery_data_received" formatted="false">收到无效电量数据</string>
+  <string name="ui_select_latest_2" formatted="false">选最近2条</string>
+  <string name="ui_test_spoken_reminder" formatted="false">🔊 试听中文心率播报</string>
+  <string name="ui_refresh_sessions" formatted="false">↻ 刷新记录列表</string>
+  <string name="ui_reminder_interval_n_minutes_1_120" formatted="false">提醒间隔 N（分钟，1–120）</string>
+  <string name="ui_importing" formatted="false">导入中…</string>
+  <string name="ui_reminded" formatted="false">已提醒：</string>
+  <string name="ui_hr_subscription_error" formatted="false">心率通知订阅错误：</string>
+  <string name="ui_saved_0_samples" formatted="false">已保存：0 条</string>
+  <string name="ui_step_sensor_active" formatted="false">计步正常</string>
+  <string name="ui_speech_test_queued_check_media_volume" formatted="false">试听已提交，请检查媒体音量</string>
+  <string name="ui_log_write_failure_e5b669" formatted="false">日志写入失败：</string>
+  <string name="ui_bluetooth_connection_closed" formatted="false">蓝牙连接关闭</string>
+  <string name="ui_disconnect" formatted="false">断开连接</string>
+  <string name="ui_sessions_eb8c2d" formatted="false"> 条</string>
+  <string name="ui_delete_this_imported_session" formatted="false">删除这条导入记录？</string>
+  <string name="ui_battery_read_timed_out_retry" formatted="false">电量读取超时（可以重试）</string>
+  <string name="ui_some_permissions_denied_only_authorized_sensor" formatted="false">部分权限未授权：仅采集已授权的数据及心率</string>
+  <string name="ui_align_from_start" formatted="false">从开始对齐</string>
+  <string name="ui_subscribes_to_three_proprietary_notify_charact" formatted="false">只订阅三组私有 Notify，不向厂商 Write 特征发送指令。监听 60 秒后保存原始数据。</string>
+  <string name="ui_selected_f24ddc" formatted="false">已选</string>
+  <string name="ui_disconnected_f2f3e9" formatted="false">未连接</string>
+  <string name="ui_text_60_second_capture_finished" formatted="false">60秒监听结束</string>
+  <string name="ui_failed_to_close_session" formatted="false">关闭记录文件失败：</string>
+  <string name="ui_fixes_f625b3" formatted="false">点）</string>
+  <string name="ui_ok" formatted="false">正常</string>
+  <string name="ui_stopped_manually" formatted="false">手动停止</string>
+  <string name="ui_speech_failed_check_tts_engine" formatted="false">播报失败：请检查系统语音引擎</string>
+  <string name="ui_last_7_days" formatted="false">最近7天</string>
+  <string name="ui_cannot_create_activity_data_directory" formatted="false">无法创建运动数据目录</string>
+  <string name="ui_ntotal" formatted="false">\n共 </string>
+  <string name="ui_select_a_session_or_import_fit_data" formatted="false">请选择记录或导入 FIT 文件</string>
+  <string name="ui_saved_every" formatted="false">已保存：记录期间每 </string>
+  <string name="app_name">高驰心率记录器</string>
+</resources>
