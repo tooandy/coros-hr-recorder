@@ -30,8 +30,12 @@ public class MainActivity extends Activity {
   private boolean probeActive,probeReady;
   private String probeFileName;
   private LinearLayout deviceList,historyList;
-  private TextView heart,status,device,battery,count,label,motionInfo,probeStatus,probeCounts,lastDeviceLabel,reminderStatus,ttsStatusView;
-  private Button scanButton,startButton,stopButton,fitButton,csvButton,batteryRefreshButton,diagnosticsButton,probeStartButton,probeStopButton,probeExportButton;
+  private LinearLayout homePage,historyPage,settingsPage;
+  private ScrollView contentScroll;
+  private final Button[] tabs=new Button[3];
+  private int selectedTab;
+  private TextView heart,status,device,battery,count,label,motionInfo,probeStatus,probeCounts,lastDeviceLabel,reminderStatus,ttsStatusView,homeReminder;
+  private Button scanButton,startButton,stopButton,fitButton,csvButton,batteryRefreshButton,diagnosticsButton,probeStartButton,probeStopButton,probeExportButton,homeDeviceButton;
   private CheckBox gpsCheck,stepsCheck,autoRecordCheck,reminderCheck;
   private EditText reminderMinutesInput;
   private int dp(int px){return Math.round(px*getResources().getDisplayMetrics().density);}
@@ -55,12 +59,38 @@ public class MainActivity extends Activity {
   @Override public void onCreate(Bundle state){
     super.onCreate(state);
     gattDiagnostics=getString(R.string.ui_no_service_details_yet);
-    ScrollView sc=new ScrollView(this);sc.setBackgroundColor(0xFFF1F5F7);
-    LinearLayout main=col();main.setPadding(dp(16),dp(32),dp(16),dp(28));
-    sc.addView(main);setContentView(sc);
-    add(main,text(getString(R.string.ui_coros_heart_rate_recorder),26,true),3);
-    add(main,text(getString(R.string.ui_heart_rate_logging_fit_csv),13,false),18);
-    LinearLayout live=card(main);
+    LinearLayout root=col();
+    root.setBackgroundColor(0xFFF1F5F7);
+    LinearLayout heading=col();heading.setPadding(dp(20),dp(20),dp(20),dp(10));
+    add(heading,text(getString(R.string.ui_coros_heart_rate_recorder),23,true),2);
+    add(heading,text(getString(R.string.nav_subtitle),12,false),0);
+    add(root,heading,5);
+    LinearLayout nav=new LinearLayout(this);
+    nav.setOrientation(LinearLayout.HORIZONTAL);
+    nav.setPadding(dp(12),dp(5),dp(12),dp(10));
+    nav.setBackgroundColor(Color.WHITE);
+    int[] labels={R.string.nav_workout,R.string.nav_history,R.string.nav_settings};
+    for(int i=0;i<3;i++){
+      final int page=i;
+      Button tab=btn(getString(labels[i]));
+      tab.setTextSize(13);
+      LinearLayout.LayoutParams lp=new LinearLayout.LayoutParams(0,dp(48),1f);
+      lp.setMargins(dp(3),0,dp(3),0);
+      nav.addView(tab,lp);
+      tabs[i]=tab;
+      tab.setOnClickListener(v->showTab(page));
+    }
+    contentScroll=new ScrollView(this);
+    contentScroll.setFillViewport(true);
+    LinearLayout content=col();
+    content.setPadding(dp(16),dp(8),dp(16),dp(28));
+    contentScroll.addView(content);
+    root.addView(contentScroll,new LinearLayout.LayoutParams(-1,0,1));
+    add(root,nav,0);
+    setContentView(root);
+    homePage=col();historyPage=col();settingsPage=col();
+    add(content,homePage,0);add(content,historyPage,0);add(content,settingsPage,0);
+    LinearLayout live=card(homePage);
     add(live,text(getString(R.string.ui_live_heart_rate),15,true),5);
     heart=text("-- BPM",46,true);heart.setTextColor(0xFF007E78);add(live,heart,8);
     device=text(getString(R.string.ui_device_disconnected),13,false);add(live,device,4);
@@ -68,7 +98,7 @@ public class MainActivity extends Activity {
     status=text(getString(R.string.ui_status_disconnected),13,false);add(live,status,4);
     count=text(getString(R.string.ui_saved_0_samples),13,false);add(live,count,0);
 
-    LinearLayout ble=card(main);
+    LinearLayout ble=card(settingsPage);
     add(ble,text(getString(R.string.ui_bluetooth),18,true),5);
     lastDeviceLabel=text(getString(R.string.ui_last_sensor_remembered_after_first_connection),13,false);
     add(ble,lastDeviceLabel,4);
@@ -91,78 +121,42 @@ public class MainActivity extends Activity {
     });
     scanButton.setOnClickListener(v->requestAndScan());
     deviceList=col();ble.addView(deviceList);
-
-    LinearLayout probe=card(main);
-    add(probe,text(getString(R.string.ui_hrv_research_passive_ble_diagnostics),18,true),5);
-    add(probe,text(getString(R.string.ui_subscribes_to_three_proprietary_notify_charact),12,false),6);
-    probeStatus=text(getString(R.string.ui_diagnostics_not_started),13,false);add(probe,probeStatus,4);
-    probeCounts=text(getString(R.string.ui_weloop_0_nordic_0_coros_0_reference_hr_0),12,false);
-    add(probe,probeCounts,7);
-    probeStartButton=btn(getString(R.string.ui_start_60_second_diagnostics));
-    add(probe,probeStartButton,4);
-    probeStartButton.setOnClickListener(v->command(HrService.START_PROBE,null,null));
-    probeStopButton=btn(getString(R.string.ui_stop_early_and_save));
-    add(probe,probeStopButton,4);
-    probeStopButton.setOnClickListener(v->command(HrService.STOP_PROBE,null,null));
-    probeExportButton=btn(getString(R.string.ui_export_latest_diagnostics_csv));
-    add(probe,probeExportButton,0);
-    probeExportButton.setOnClickListener(v->exportProbe());
-
-    LinearLayout record=card(main);
-    add(record,text(getString(R.string.ui_recording_controls),18,true),6);
-    gpsCheck=new CheckBox(this);
-    gpsCheck.setText(getString(R.string.ui_also_record_phone_gps_route_distance_pace));
-    gpsCheck.setTextSize(13);
-    gpsCheck.setChecked(getPreferences(0).getBoolean("wantGps",false));
-    add(record,gpsCheck,1);
-    gpsCheck.setOnCheckedChangeListener((v,enabled)->
-      getPreferences(0).edit().putBoolean("wantGps",enabled).apply());
-    stepsCheck=new CheckBox(this);
-    stepsCheck.setText(getString(R.string.ui_also_record_phone_steps_cadence_estimated_stri));
-    stepsCheck.setTextSize(13);
-    stepsCheck.setChecked(getPreferences(0).getBoolean("wantSteps",false));
-    add(record,stepsCheck,5);
-    stepsCheck.setOnCheckedChangeListener((v,enabled)->
-      getPreferences(0).edit().putBoolean("wantSteps",enabled).apply());
-    add(record,text(getString(R.string.ui_gps_and_steps_are_recorded_only_during_a_sessi),12,false),7);
-    motionInfo=text(getString(R.string.ui_gps_off_steps_off),12,false);
-    add(record,motionInfo,8);
-    add(record,text(getString(R.string.ui_periodic_heart_rate_reminders),15,true),5);
-    android.content.SharedPreferences reminderPrefs=getSharedPreferences("hr_reminders",MODE_PRIVATE);
-    reminderCheck=new CheckBox(this);
-    reminderCheck.setText(getString(R.string.ui_speak_heart_rate_and_notify_every_n_minutes_wh));
-    reminderCheck.setTextSize(13);
-    reminderCheck.setChecked(reminderPrefs.getBoolean("enabled",false));
-    add(record,reminderCheck,4);
-    add(record,text(getString(R.string.ui_reminder_interval_n_minutes_1_120),12,false),2);
-    reminderMinutesInput=new EditText(this);
-    reminderMinutesInput.setSingleLine(true);
-    reminderMinutesInput.setInputType(android.text.InputType.TYPE_CLASS_NUMBER);
-    reminderMinutesInput.setFilters(new android.text.InputFilter[]{
-      new android.text.InputFilter.LengthFilter(3)
-    });
-    reminderMinutesInput.setText(Integer.toString(reminderPrefs.getInt("minutes",5)));
-    add(record,reminderMinutesInput,4);
-    Button saveReminder=btn(getString(R.string.ui_save_reminder_interval));add(record,saveReminder,3);
-    saveReminder.setOnClickListener(v->saveReminderSettings(false));
-    reminderCheck.setOnCheckedChangeListener((v,checked)->saveReminderSettings(checked));
-    Button testVoice=btn(getString(R.string.ui_test_spoken_reminder));add(record,testVoice,3);
-    testVoice.setOnClickListener(v->command(HrService.TEST_CHINESE_VOICE,null,null));
-    ttsStatusView=text(getString(R.string.ui_voice_not_tested),12,false);add(record,ttsStatusView,4);
-    reminderStatus=text(getString(R.string.ui_reminder_not_started),12,false);add(record,reminderStatus,8);
-    add(record,text(getString(R.string.ui_timer_starts_with_recording_stops_when_recordi),12,false),7);
-    startButton=btn(getString(R.string.ui_start_recording));add(record,startButton,4);
-    stopButton=btn(getString(R.string.ui_stop_and_save));add(record,stopButton,4);
-    Button disconnect=btn(getString(R.string.ui_disconnect));add(record,disconnect,0);
-    startButton.setOnClickListener(v->startWorkout());
-    stopButton.setOnClickListener(v->{
-      command(HrService.STOP,null,null);
-      // Fallback when a save event is missed during an activity lifecycle change.
-      handler.postDelayed(this::refresh,650);
-    });
+    Button disconnect=btn(getString(R.string.ui_disconnect));add(ble,disconnect,0);
     disconnect.setOnClickListener(v->command(HrService.DISCONNECT,null,null));
 
-    LinearLayout files=card(main);
+    LinearLayout record=card(homePage);
+    add(record,text(getString(R.string.ui_recording_controls),18,true),6);
+    startButton=btn(getString(R.string.ui_start_recording));add(record,startButton,4);
+    stopButton=btn(getString(R.string.ui_stop_and_save));add(record,stopButton,4);
+    startButton.setMinHeight(dp(56));stopButton.setMinHeight(dp(56));
+    startButton.setBackgroundTintList(android.content.res.ColorStateList.valueOf(0xFF007E78));
+    startButton.setTextColor(Color.WHITE);
+    stopButton.setBackgroundTintList(android.content.res.ColorStateList.valueOf(0xFFB9493F));
+    stopButton.setTextColor(Color.WHITE);
+    motionInfo=text(getString(R.string.ui_gps_off_steps_off),12,false);
+    add(record,motionInfo,8);
+    android.content.SharedPreferences reminderSummary=getSharedPreferences("hr_reminders",MODE_PRIVATE);
+    homeReminder=text(reminderSummary.getBoolean("enabled",false)?
+      getString(R.string.home_reminder_every)+reminderSummary.getInt("minutes",5)+
+        getString(R.string.home_minute_suffix):getString(R.string.home_reminder_off),13,false);
+    add(record,homeReminder,8);
+    Button openDevices=btn(getString(R.string.home_connect_sensor));add(record,openDevices,5);
+    openDevices.setOnClickListener(v->showTab(2));
+    homeDeviceButton=openDevices;
+    Button browse=btn(getString(R.string.home_open_history));add(record,browse,0);
+    browse.setOnClickListener(v->showTab(1));
+    startButton.setOnClickListener(v->startWorkout());
+    stopButton.setOnClickListener(v->new AlertDialog.Builder(this)
+      .setTitle(R.string.confirm_stop_title)
+      .setMessage(R.string.confirm_stop_message)
+      .setNegativeButton(android.R.string.cancel,null)
+      .setPositiveButton(R.string.confirm_stop_action,(dialog,which)->{
+        command(HrService.STOP,null,null);
+        // Fallback when a save event is missed during an activity lifecycle change.
+        handler.postDelayed(this::refresh,650);
+      }).show());
+
+    LinearLayout files=card(historyPage);
     add(files,text(getString(R.string.ui_sessions_export),18,true),6);
     Button refreshFiles=btn(getString(R.string.ui_refresh_sessions));add(files,refreshFiles,5);
     refreshFiles.setOnClickListener(v->{
@@ -178,17 +172,99 @@ public class MainActivity extends Activity {
     csvButton.setOnClickListener(v->export(false));
     historyList=col();files.addView(historyList);
 
-    Button setting=btn(getString(R.string.ui_open_background_battery_settings));add(main,setting,7);
+    LinearLayout sensors=card(settingsPage);
+    add(sensors,text(getString(R.string.settings_sensor_options),18,true),6);
+    gpsCheck=new CheckBox(this);
+    gpsCheck.setText(getString(R.string.ui_also_record_phone_gps_route_distance_pace));
+    gpsCheck.setTextSize(13);
+    gpsCheck.setChecked(getPreferences(0).getBoolean("wantGps",false));
+    add(sensors,gpsCheck,1);
+    gpsCheck.setOnCheckedChangeListener((v,enabled)->
+      getPreferences(0).edit().putBoolean("wantGps",enabled).apply());
+    stepsCheck=new CheckBox(this);
+    stepsCheck.setText(getString(R.string.ui_also_record_phone_steps_cadence_estimated_stri));
+    stepsCheck.setTextSize(13);
+    stepsCheck.setChecked(getPreferences(0).getBoolean("wantSteps",false));
+    add(sensors,stepsCheck,5);
+    stepsCheck.setOnCheckedChangeListener((v,enabled)->
+      getPreferences(0).edit().putBoolean("wantSteps",enabled).apply());
+    add(sensors,text(getString(R.string.ui_gps_and_steps_are_recorded_only_during_a_sessi),12,false),7);
+
+    LinearLayout reminders=card(settingsPage);
+    add(reminders,text(getString(R.string.ui_periodic_heart_rate_reminders),15,true),5);
+    android.content.SharedPreferences reminderPrefs=getSharedPreferences("hr_reminders",MODE_PRIVATE);
+    reminderCheck=new CheckBox(this);
+    reminderCheck.setText(getString(R.string.ui_speak_heart_rate_and_notify_every_n_minutes_wh));
+    reminderCheck.setTextSize(13);
+    reminderCheck.setChecked(reminderPrefs.getBoolean("enabled",false));
+    add(reminders,reminderCheck,4);
+    add(reminders,text(getString(R.string.ui_reminder_interval_n_minutes_1_120),12,false),2);
+    reminderMinutesInput=new EditText(this);
+    reminderMinutesInput.setSingleLine(true);
+    reminderMinutesInput.setInputType(android.text.InputType.TYPE_CLASS_NUMBER);
+    reminderMinutesInput.setFilters(new android.text.InputFilter[]{
+      new android.text.InputFilter.LengthFilter(3)
+    });
+    reminderMinutesInput.setText(Integer.toString(reminderPrefs.getInt("minutes",5)));
+    add(reminders,reminderMinutesInput,4);
+    Button saveReminder=btn(getString(R.string.ui_save_reminder_interval));add(reminders,saveReminder,3);
+    saveReminder.setOnClickListener(v->saveReminderSettings(false));
+    reminderCheck.setOnCheckedChangeListener((v,checked)->saveReminderSettings(checked));
+    Button testVoice=btn(getString(R.string.ui_test_spoken_reminder));add(reminders,testVoice,3);
+    testVoice.setOnClickListener(v->command(HrService.TEST_CHINESE_VOICE,null,null));
+    ttsStatusView=text(getString(R.string.ui_voice_not_tested),12,false);add(reminders,ttsStatusView,4);
+    reminderStatus=text(getString(R.string.ui_reminder_not_started),12,false);add(reminders,reminderStatus,8);
+    add(reminders,text(getString(R.string.ui_timer_starts_with_recording_stops_when_recordi),12,false),7);
+    LinearLayout probe=card(settingsPage);
+    add(probe,text(getString(R.string.ui_hrv_research_passive_ble_diagnostics),18,true),5);
+    add(probe,text(getString(R.string.ui_subscribes_to_three_proprietary_notify_charact),12,false),6);
+    probeStatus=text(getString(R.string.ui_diagnostics_not_started),13,false);add(probe,probeStatus,4);
+    probeCounts=text(getString(R.string.ui_weloop_0_nordic_0_coros_0_reference_hr_0),12,false);
+    add(probe,probeCounts,7);
+    probeStartButton=btn(getString(R.string.ui_start_60_second_diagnostics));
+    add(probe,probeStartButton,4);
+    probeStartButton.setOnClickListener(v->command(HrService.START_PROBE,null,null));
+    probeStopButton=btn(getString(R.string.ui_stop_early_and_save));
+    add(probe,probeStopButton,4);
+    probeStopButton.setOnClickListener(v->command(HrService.STOP_PROBE,null,null));
+    probeExportButton=btn(getString(R.string.ui_export_latest_diagnostics_csv));
+    add(probe,probeExportButton,0);
+    probeExportButton.setOnClickListener(v->exportProbe());
+
+    Button setting=btn(getString(R.string.ui_open_background_battery_settings));add(settingsPage,setting,7);
     setting.setOnClickListener(v->{
       Intent i=new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
       i.setData(Uri.parse("package:"+getPackageName()));startActivity(i);
     });
-    add(main,text(getString(R.string.ui_when_comparing_watch_optical_heart_rate_do_not),12,false),0);
+    add(settingsPage,text(getString(R.string.ui_when_comparing_watch_optical_heart_rate_do_not),12,false),0);
     refresh();updateButtons();
     updateLastDeviceLabel();
+    showTab(state==null?0:state.getInt("selectedTab",0));
     // Only a fresh activity launch initiates restore; rotation / returning from
     // the comparison screen must never restart a manually stopped session.
     if(state==null)handler.post(this::restorePreviousDevice);
+  }
+  private void showTab(int target){
+    selectedTab=Math.max(0,Math.min(2,target));
+    LinearLayout[] pages={homePage,historyPage,settingsPage};
+    for(int i=0;i<pages.length;i++){
+      boolean active=i==selectedTab;
+      pages[i].setVisibility(active?View.VISIBLE:View.GONE);
+      tabs[i].setBackgroundTintList(android.content.res.ColorStateList.valueOf(
+        active?0xFF007E78:0xFFE3ECEF));
+      tabs[i].setTextColor(active?Color.WHITE:0xFF18313D);
+      tabs[i].setTypeface(null,active?Typeface.BOLD:Typeface.NORMAL);
+    }
+    if(contentScroll!=null)contentScroll.post(()->contentScroll.scrollTo(0,0));
+    if(selectedTab==1&&historyList!=null)refresh();
+  }
+  @Override protected void onSaveInstanceState(Bundle out){
+    out.putInt("selectedTab",selectedTab);
+    super.onSaveInstanceState(out);
+  }
+  @Override public void onBackPressed(){
+    if(selectedTab!=0){showTab(0);return;}
+    super.onBackPressed();
   }
   private void command(String what,String addr,String name){
     Intent i=new Intent(this,HrService.class).putExtra(HrService.COMMAND,what);
@@ -265,6 +341,9 @@ public class MainActivity extends Activity {
     if(recording||connected)command(HrService.UPDATE_REMINDER,null,null);
     reminderStatus.setText(reminderCheck.isChecked()?
       getString(R.string.ui_saved_every)+minutes+getString(R.string.ui_minutes_while_recording):getString(R.string.ui_reminders_off));
+    homeReminder.setText(reminderCheck.isChecked()?
+      getString(R.string.home_reminder_every)+minutes+getString(R.string.home_minute_suffix):
+      getString(R.string.home_reminder_off));
     if(requestNotificationPermission&&reminderCheck.isChecked()&&Build.VERSION.SDK_INT>=33&&
         checkSelfPermission(Manifest.permission.POST_NOTIFICATIONS)!=PackageManager.PERMISSION_GRANTED){
       requestPermissions(new String[]{Manifest.permission.POST_NOTIFICATIONS},
@@ -349,7 +428,7 @@ public class MainActivity extends Activity {
       runOnUiThread(()->{
         Button b=btn(name+"  ("+result.getRssi()+" dBm)");
         add(deviceList,b,2);
-        b.setOnClickListener(v->{stopScan();connectSelected(addr,name);});
+        b.setOnClickListener(v->{stopScan();connectSelected(addr,name);showTab(0);});
       });
     }
     @Override public void onScanFailed(int reason){runOnUiThread(()->toast(getString(R.string.ui_bluetooth_scan_error)+reason));}
@@ -414,6 +493,12 @@ public class MainActivity extends Activity {
       String voiceStatus=intent.getStringExtra("ttsStatus");
       if(voiceStatus!=null)ttsStatusView.setText(getString(R.string.ui_voice)+voiceStatus);
       int remaining=intent.getIntExtra("reminderSecondsToNext",-1);
+      if(homeReminder!=null){
+        homeReminder.setText(reminderCheck.isChecked()?
+          getString(R.string.home_reminder_every)+reminderMinutes+
+            getString(R.string.home_minute_suffix):
+          getString(R.string.home_reminder_off));
+      }
       if(reminderStatus!=null){
         if(reminderActive){
           reminderStatus.setText(getString(R.string.ui_reminder_running_every)+reminderMinutes+getString(R.string.ui_minutes_next_in)+
@@ -456,12 +541,18 @@ public class MainActivity extends Activity {
     }
   };
   private void updateButtons(){
-    if(startButton!=null)startButton.setEnabled(connected&&!recording);
-    if(stopButton!=null)stopButton.setEnabled(recording);
+    if(stopButton!=null){
+      stopButton.setEnabled(recording);
+      stopButton.setVisibility(recording?View.VISIBLE:View.GONE);
+    }
     if(probeStartButton!=null)probeStartButton.setEnabled(probeReady&&!probeActive);
     if(probeStopButton!=null)probeStopButton.setEnabled(probeActive);
     if(probeExportButton!=null)probeExportButton.setEnabled(!probeActive&&probeFileName!=null);
-    if(startButton!=null)startButton.setEnabled(connected&&!recording&&!probeActive);
+    if(startButton!=null){
+      startButton.setEnabled(connected&&!recording&&!probeActive);
+      startButton.setVisibility(recording?View.GONE:View.VISIBLE);
+    }
+    if(homeDeviceButton!=null)homeDeviceButton.setVisibility(connected?View.GONE:View.VISIBLE);
     if(batteryRefreshButton!=null)batteryRefreshButton.setEnabled(batteryReadable);
     if(diagnosticsButton!=null)diagnosticsButton.setEnabled(gattDiagnostics.startsWith(getString(R.string.ui_device)));
     if(fitButton!=null)fitButton.setEnabled(selected!=null&&!recording);

@@ -16,6 +16,10 @@
 - Passive BLE diagnostics that capture raw proprietary notifications without sending unknown vendor commands.
 - No account or Internet permission. Exercise files may contain identifiable GPS routes; check before sharing.
 
+## Screen layout
+
+The app uses three bottom tabs: **Workout** for live HR and recording controls, **History** for session selection and FIT/CSV export, and **Settings** for Bluetooth, GPS/steps, voice reminders and BLE diagnostics. Tab switching does not stop an ongoing session. Pause/resume is not yet available; Stop & Save finishes the session after confirmation to avoid accidental taps. Spoken reminders are short (“Current heart rate 150” or “当前心率150” depending on system language), while visual notifications retain BPM.
+
 ## Install and compatibility
 
 Android 8.0+ (minSdk 26), compileSdk 36, targetSdk 35. Java-only code uses no native libraries; a **single universal APK** is compatible with arm64-v8a, armeabi-v7a, x86 and x86_64. CI fails if native libraries are introduced without review.

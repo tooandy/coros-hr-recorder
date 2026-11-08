@@ -1,5 +1,15 @@
 # Changelog / 更新记录
 
+## [Unreleased] — UI reorganization and spoken HR brevity
+
+- Replace a long single-page home with three persistent bottom tabs: Workout, History, Settings.
+- Keep live HR, recording state, GPS/steps summary and the one relevant Start/Stop & Save action on Workout; Stop & Save now requires confirmation.
+- Move session selection, FIT/CSV export and comparison to History; Bluetooth setup, sensor preferences, TTS configuration and passive BLE diagnostics to Settings.
+- Preserve saved user preferences and live service recording when switching tabs; show last selected tab after Activity recreation.
+- Chinese TTS now says “当前心率150” instead of “当前心率150次每分钟”; English now says “Current heart rate 150”. Preview uses identical concise phrases.
+- Pause/resume recording is not implemented yet; existing Stop & Save behavior remains.
+
+
 ## [0.5.0] — 2026-11-07 (initial public-source release)
 
 ### Added

@@ -66,7 +66,7 @@ public class HrService extends Service {
         if(fresh){
           publishHeartRateReminder(bpm);
           if(reminderTtsReady&&reminderTts!=null){
-            reminderTts.speak(getString(R.string.ui_current_heart_rate)+bpm+getString(R.string.ui_beats_per_minute),
+            reminderTts.speak(getString(R.string.speech_heart_rate,bpm),
               TextToSpeech.QUEUE_FLUSH,null,"coros_hr_reminder");
           }
         }
@@ -212,7 +212,7 @@ public class HrService extends Service {
   }
   private void testChineseVoice(){
     if(reminderTtsReady&&reminderTts!=null){
-      int status=reminderTts.speak(getString(R.string.ui_voice_test_current_heart_rate_one_hundred_fort),
+      int status=reminderTts.speak(getString(R.string.speech_heart_rate,150),
         TextToSpeech.QUEUE_FLUSH,null,"coros_hr_voice_test");
       ttsStatus=status==TextToSpeech.SUCCESS?getString(R.string.ui_speech_test_queued_check_media_volume):getString(R.string.ui_speech_failed_check_tts_engine);
       send();
@@ -263,7 +263,7 @@ public class HrService extends Service {
           ttsStatus=getString(R.string.ui_voice_ready);
           if(ttsTestPending){
             ttsTestPending=false;
-            int result=tts.speak(getString(R.string.ui_voice_test_current_heart_rate_one_hundred_fort),
+            int result=tts.speak(getString(R.string.speech_heart_rate,150),
               TextToSpeech.QUEUE_FLUSH,null,"coros_hr_voice_test");
             ttsStatus=result==TextToSpeech.SUCCESS?getString(R.string.ui_speech_test_started_check_media_volume):getString(R.string.ui_speech_test_failed_check_tts_engine);
           }
