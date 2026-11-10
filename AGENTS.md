@@ -11,6 +11,11 @@ This repository is public. Treat every branch, commit, workflow log, README and 
 - Do not claim HRV from BPM values; use authentic RR intervals or label outputs as non-HRV.
 - Do not claim hardware compatibility without testing the actual device.
 
+## Appearance and accessibility
+- Use the shared Appearance.Palette for colors in activities and custom views. Avoid new hard-coded light backgrounds or low-contrast text that are invisible in manual Dark mode.
+- Keep app theme selection separate from Android system settings and the long-running HR foreground service. Changes to UI appearance must never stop or restart a recording.
+- Check that landscape chart axes/series, dynamic dialogs, system bars and Android input controls remain readable in both themes. Preserve state when recreating an Activity.
+
 ## Localization
 - Every new user-visible string in activities, views, services and foreground notifications must have English in app/src/main/res/values/strings.xml and Chinese in app/src/main/res/values-zh/strings.xml.
 - Prefer Android string resources over literal Chinese or English Java UI copy. Run: python3 scripts/check_locales.py

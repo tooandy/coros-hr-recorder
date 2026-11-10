@@ -28,7 +28,7 @@ public final class CompareActivity extends Activity {
   private final List<HrSeries> all=new ArrayList<>();
   private final LinkedHashSet<String> checked=new LinkedHashSet<>();
   private final SimpleDateFormat dateFmt=new SimpleDateFormat("yyyy-MM-dd HH:mm",Locale.getDefault());
-  private final int INK=0xFF142C36,TEAL=0xFF007E78;
+  private Appearance.Palette colors;
   private HrChartView chart;
   private LinearLayout list,topBar;
   private TextView status,readout;
@@ -45,18 +45,23 @@ public final class CompareActivity extends Activity {
 
   private int dp(float n){return Math.round(n*getResources().getDisplayMetrics().density);}
   private TextView tv(String text,int size,boolean bold){
-    TextView t=new TextView(this);t.setText(text);t.setTextColor(INK);t.setTextSize(size);
+    TextView t=new TextView(this);t.setText(text);t.setTextColor(colors.text);t.setTextSize(size);
     if(bold)t.setTypeface(null,Typeface.BOLD);return t;
   }
   private Button action(String text,Runnable r){
     Button b=new Button(this);b.setAllCaps(false);b.setTextSize(12);b.setText(text);
     b.setMinWidth(0);b.setMinimumWidth(0);b.setMinHeight(0);b.setMinimumHeight(0);
-    b.setPadding(dp(9),dp(3),dp(9),dp(3));b.setOnClickListener(v->r.run());return b;
+    b.setPadding(dp(9),dp(3),dp(9),dp(3));
+    b.setBackgroundTintList(android.content.res.ColorStateList.valueOf(colors.softButton));
+    b.setTextColor(colors.text);
+    b.setOnClickListener(v->r.run());return b;
   }
   private LinearLayout row(){LinearLayout l=new LinearLayout(this);l.setOrientation(0);return l;}
   private LinearLayout column(){LinearLayout l=new LinearLayout(this);l.setOrientation(1);return l;}
   @Override public void onCreate(Bundle b){
+    Appearance.apply(this);
     super.onCreate(b);
+    colors=Appearance.palette(this);
     annotations=new SessionAnnotations(this);
     focusFilename=getIntent().getStringExtra("focusFilename");
     setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
@@ -64,7 +69,7 @@ public final class CompareActivity extends Activity {
     loadFiles(false);
   }
   private void buildUi(){
-    LinearLayout root=column();root.setBackgroundColor(0xFFF3F6F8);setContentView(root);SafeArea.apply(this,root);
+    LinearLayout root=column();root.setBackgroundColor(colors.background);setContentView(root);SafeArea.apply(this,root);
     HorizontalScrollView controls=new HorizontalScrollView(this);
     controls.setHorizontalScrollBarEnabled(false);
     topBar=row();topBar.setGravity(Gravity.CENTER_VERTICAL);
@@ -102,7 +107,7 @@ public final class CompareActivity extends Activity {
     root.addView(body,new LinearLayout.LayoutParams(-1,0,1));
     LinearLayout panel=column();
     panel.setPadding(dp(10),dp(5),dp(9),dp(6));
-    panel.setBackgroundColor(0xFFFFFFFF);
+    panel.setBackgroundColor(colors.surface);
     body.addView(panel,new LinearLayout.LayoutParams(dp(255),-1));
     TextView heading=tv(getString(R.string.ui_hr_sessions_up_to)+MAX_VISIBLE+getString(R.string.ui_sessions_eb8c2d),15,true);
     panel.addView(heading);
@@ -136,7 +141,7 @@ public final class CompareActivity extends Activity {
       rebuildChart();renderFiles();
     }));
     panel.addView(actions);
-    status=tv(getString(R.string.ui_reading_file),11,false);status.setTextColor(0xFF617481);
+    status=tv(getString(R.string.ui_reading_file),11,false);status.setTextColor(colors.muted);
     panel.addView(status,new LinearLayout.LayoutParams(-1,dp(28)));
     ScrollView scroll=new ScrollView(this);
     list=column();scroll.addView(list);
@@ -145,13 +150,13 @@ public final class CompareActivity extends Activity {
     LinearLayout graph=column();body.addView(graph,new LinearLayout.LayoutParams(0,-1,1));
     readout=tv(getString(R.string.ui_tap_chart_to_see_aligned_heart_rates_pinch_to),12,false);
     readout.setPadding(dp(12),dp(4),dp(8),dp(4));readout.setMaxLines(3);
-    readout.setBackgroundColor(0xFFFFFFFF);
+    readout.setBackgroundColor(colors.surface);
     graph.addView(readout,new LinearLayout.LayoutParams(-1,dp(69)));
     chart=new HrChartView(this);
     chart.setCursorListener(x->updateReadout(x));
     graph.addView(chart,new LinearLayout.LayoutParams(-1,0,1));
     TextView help=tv(getString(R.string.ui_tap_to_inspect_drag_to_scrub_pinch_to_zoom_swi),11,false);
-    help.setTextColor(0xFF687987);help.setPadding(dp(9),0,dp(5),0);
+    help.setTextColor(colors.muted);help.setPadding(dp(9),0,dp(5),0);
     graph.addView(help,new LinearLayout.LayoutParams(-1,dp(21)));
   }
   private File importedDir(){return new File(getFilesDir(),"imported_fit");}
@@ -244,7 +249,7 @@ public final class CompareActivity extends Activity {
       });
       if(s.imported){
         TextView remove=tv(getString(R.string.ui_delete_imported_copy),10,false);
-        remove.setTextColor(0xFFB44C45);remove.setPadding(dp(30),0,0,0);
+        remove.setTextColor(colors.lowBattery);remove.setPadding(dp(30),0,0,0);
         remove.setOnClickListener(v->new AlertDialog.Builder(this)
           .setTitle(getString(R.string.ui_delete_this_imported_session))
           .setMessage(s.name+getString(R.string.ui_nonly_removes_the_app_copy_not_the_original_fi))
@@ -298,7 +303,7 @@ public final class CompareActivity extends Activity {
       String delta=value>=0&&base>=0&&i>0?" ("+(value-base>=0?"+":"")+(value-base)+")":"";
       String item=shortName+" "+(value>=0?value+" BPM"+delta:"--")+"  ";
       int pos=b.length();b.append(item);
-      b.setSpan(new ForegroundColorSpan(HrChartView.COLORS[i%HrChartView.COLORS.length]),
+      b.setSpan(new ForegroundColorSpan(HrChartView.colors(colors.dark)[i%HrChartView.COLORS.length]),
         pos,b.length(),android.text.Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
     }
     readout.setText(b);

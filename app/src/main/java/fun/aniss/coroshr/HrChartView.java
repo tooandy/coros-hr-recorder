@@ -13,6 +13,12 @@ public final class HrChartView extends View {
     0xFF008F89,0xFFE6673B,0xFF386AC6,0xFFB24496,0xFFAE8623,
     0xFF6B59C7,0xFF27834D,0xFFBD4B56,0xFF467C92,0xFF8F5B34
   };
+  static final int[] DARK_COLORS={
+    0xFF41D7C9,0xFFFFA47F,0xFF83A5FF,0xFFE697C9,0xFFF2CD6A,
+    0xFFB9A3FF,0xFF6DDDA0,0xFFFF8299,0xFF7AC8DB,0xFFD8AD85
+  };
+  static int[] colors(boolean dark){return dark?DARK_COLORS:COLORS;}
+  private final Appearance.Palette palette;
   private final Paint p=new Paint(Paint.ANTI_ALIAS_FLAG);
   private final Path line=new Path();
   private final RectF plot=new RectF();
@@ -29,6 +35,7 @@ public final class HrChartView extends View {
 
   public HrChartView(Context context){
     super(context);
+    palette=Appearance.palette(context);
     density=getResources().getDisplayMetrics().density;
     setLayerType(View.LAYER_TYPE_SOFTWARE,null);
     scaleDetector=new ScaleGestureDetector(context,new ScaleGestureDetector.SimpleOnScaleGestureListener(){
@@ -134,21 +141,21 @@ public final class HrChartView extends View {
   private float xOf(long ms){return plot.left+(ms-viewMin)*plot.width()/(float)(viewMax-viewMin);}
   @Override protected void onDraw(Canvas c){
     super.onDraw(c);
-    c.drawColor(0xFFF8FAFC);
+    c.drawColor(palette.chartBackground);
     plot.set(dp(48),dp(18),getWidth()-dp(20),getHeight()-dp(39));
     if(plot.width()<=50||plot.height()<=50)return;
-    p.setStyle(Paint.Style.FILL);p.setColor(0xFFFFFFFF);c.drawRoundRect(plot,dp(9),dp(9),p);
+    p.setStyle(Paint.Style.FILL);p.setColor(palette.surface);c.drawRoundRect(plot,dp(9),dp(9),p);
     p.setTypeface(Typeface.create("sans-serif",Typeface.NORMAL));
     p.setTextSize(dp(11));
     for(int i=0;i<=4;i++){
       int hr=hrMin+(hrMax-hrMin)*i/4;float y=yOf(hr);
-      p.setColor(0xFFE1E8EC);p.setStrokeWidth(dp(1));c.drawLine(plot.left,y,plot.right,y,p);
-      p.setColor(0xFF5D7180);c.drawText(""+hr,dp(6),y+dp(4),p);
+      p.setColor(palette.grid);p.setStrokeWidth(dp(1));c.drawLine(plot.left,y,plot.right,y,p);
+      p.setColor(palette.axis);c.drawText(""+hr,dp(6),y+dp(4),p);
     }
     for(int i=0;i<=5;i++){
       float x=plot.left+plot.width()*i/5;
-      p.setColor(0xFFE6EBEF);p.setStrokeWidth(dp(1));c.drawLine(x,plot.top,x,plot.bottom,p);
-      p.setColor(0xFF647684);
+      p.setColor(palette.grid);p.setStrokeWidth(dp(1));c.drawLine(x,plot.top,x,plot.bottom,p);
+      p.setColor(palette.axis);
       String tick=displayX(viewMin+(viewMax-viewMin)*i/5);
       p.setTextSize(dp(10));
       float textW=p.measureText(tick);
@@ -180,23 +187,23 @@ public final class HrChartView extends View {
       }
       p.setStyle(Paint.Style.STROKE);p.setStrokeWidth(dp(2.2f));
       p.setStrokeJoin(Paint.Join.ROUND);p.setStrokeCap(Paint.Cap.ROUND);
-      p.setColor(COLORS[seriesIndex%COLORS.length]);c.drawPath(line,p);
+      p.setColor(colors(palette.dark)[seriesIndex%COLORS.length]);c.drawPath(line,p);
       p.setStyle(Paint.Style.FILL);
     }
     if(cursor!=null&&cursor>=viewMin&&cursor<=viewMax){
       float x=xOf(cursor);
-      p.setColor(0xFF424F62);p.setStrokeWidth(dp(1.5f));
+      p.setColor(palette.cursor);p.setStrokeWidth(dp(1.5f));
       c.drawLine(x,plot.top,x,plot.bottom,p);
       for(int i=0;i<shown.size();i++){
         int bpm=shown.get(i).nearestBpm(cursor,mode,3000);
         if(bpm<0)continue;
-        p.setStyle(Paint.Style.FILL);p.setColor(COLORS[i%COLORS.length]);
+        p.setStyle(Paint.Style.FILL);p.setColor(colors(palette.dark)[i%COLORS.length]);
         c.drawCircle(x,yOf(bpm),dp(4),p);
       }
     }
     c.restore();
     if(shown.isEmpty()){
-      p.setStyle(Paint.Style.FILL);p.setColor(0xFF697A85);p.setTextSize(dp(17));
+      p.setStyle(Paint.Style.FILL);p.setColor(palette.axis);p.setTextSize(dp(17));
       c.drawText(getContext().getString(R.string.ui_select_a_session_or_import_fit_data),plot.left+dp(22),plot.centerY(),p);
     }
   }

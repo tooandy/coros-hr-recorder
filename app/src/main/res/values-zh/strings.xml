@@ -304,4 +304,9 @@
   <string name="history_edit_title">编辑记录名称与备注</string>
   <string name="history_save">保存</string>
   <string name="history_save_failed">保存记录说明失败</string>
+  <string name="appearance_title">外观模式</string>
+  <string name="appearance_follow_system">跟随系统</string>
+  <string name="appearance_light">浅色</string>
+  <string name="appearance_dark">深色</string>
+  <string name="appearance_description">可以手动选择，或跟随手机深浅色设置。运动主页和横屏图表同步切换。</string>
 </resources>

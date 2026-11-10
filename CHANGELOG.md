@@ -2,6 +2,10 @@
 
 ## [Unreleased] — UI reorganization and spoken HR brevity
 
+- Add selectable appearance modes: Light, Dark, and Follow system (default). Persist user choice and recreate Activity UI on change without restarting the foreground recording service.
+- Apply the dark palette to Workout, History, Settings, landscape FIT/CSV comparison, chart grids and traces, dialogs, Android controls, status/navigation bars. Keep the active tab and history search/selection across theme recreation.
+- Add JVM regression checks for the appearance selection policy and both system UI mode values.
+
 - Respect status/navigation bars and camera display cutouts in portrait and landscape using Android WindowInsets; no fixed camera coordinates.
 - Add local session titles and notes without changing original FIT/CSV filenames; search name/note/date/filename, filter by month or notes, sort by time/name, group by month, and render larger collections in batches.
 - Focus an older selected history session in the landscape FIT/CSV comparison, even if outside the newest 100.

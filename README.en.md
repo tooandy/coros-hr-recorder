@@ -16,6 +16,10 @@
 - Passive BLE diagnostics that capture raw proprietary notifications without sending unknown vendor commands.
 - No account or Internet permission. Exercise files may contain identifiable GPS routes; check before sharing.
 
+## Appearance
+
+Under **Settings → Appearance**, choose **Follow system** (default), **Light**, or **Dark**. The choice is saved locally and applied immediately to the workout screen, session history, landscape chart and dialogs. In Follow system mode, Android light/dark changes automatically update the appearance. Switching themes recreates the visible Activity but does not stop an ongoing foreground heart rate recording.
+
 ## Screen layout
 
 Both portrait and landscape screens respect system bars and display cutout safe insets. The History tab supports local names and notes, search (title/note/date/filename), month filtering and grouping, sorting and paginated records. These annotations do not rename raw FIT/CSV files. The launcher icon trims the original white frame.

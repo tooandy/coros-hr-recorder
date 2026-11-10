@@ -10,6 +10,8 @@ javac -d .tools/ci/probe app/src/main/java/fun/aniss/coroshr/BleProbeLog.java sc
 java -cp .tools/ci/probe fun.aniss.coroshr.BleProbeLogSmokeTest
 javac -d .tools/ci/reminder app/src/main/java/fun/aniss/coroshr/HrReminderSchedule.java scripts/HrReminderScheduleSmokeTest.java
 java -cp .tools/ci/reminder fun.aniss.coroshr.HrReminderScheduleSmokeTest
+javac -d .tools/ci/reminder app/src/main/java/fun/aniss/coroshr/AppearanceModePolicy.java scripts/AppearanceModeSmokeTest.java
+java -cp .tools/ci/reminder fun.aniss.coroshr.AppearanceModeSmokeTest
 javac -d .tools/ci/history app/src/main/java/fun/aniss/coroshr/SessionHistory.java scripts/SessionHistorySmokeTest.java
 java -cp .tools/ci/history fun.aniss.coroshr.SessionHistorySmokeTest
 javac -d .tools/ci/history app/src/main/java/fun/aniss/coroshr/SessionCatalog.java scripts/SessionCatalogSmokeTest.java

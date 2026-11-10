@@ -46,13 +46,19 @@ public class MainActivity extends Activity {
   private Button scanButton,startButton,stopButton,fitButton,csvButton,batteryRefreshButton,diagnosticsButton,probeStartButton,probeStopButton,probeExportButton,homeDeviceButton;
   private CheckBox gpsCheck,stepsCheck,autoRecordCheck,reminderCheck;
   private EditText reminderMinutesInput;
+  private Appearance.Palette colors;
   private int dp(int px){return Math.round(px*getResources().getDisplayMetrics().density);}
   private TextView text(String s,int size,boolean bold){
     TextView t=new TextView(this);t.setText(s);t.setTextSize(size);
-    t.setTextColor(0xFF18313D);
+    t.setTextColor(colors.text);
     if(bold)t.setTypeface(null,Typeface.BOLD);return t;
   }
-  private Button btn(String s){Button b=new Button(this);b.setText(s);b.setAllCaps(false);return b;}
+  private Button btn(String s){
+    Button b=new Button(this);b.setText(s);b.setAllCaps(false);
+    b.setBackgroundTintList(android.content.res.ColorStateList.valueOf(colors.softButton));
+    b.setTextColor(colors.text);
+    return b;
+  }
   private LinearLayout col(){LinearLayout l=new LinearLayout(this);l.setOrientation(1);return l;}
   private void add(LinearLayout parent,View v,int gap){
     LinearLayout.LayoutParams p=new LinearLayout.LayoutParams(-1,-2);
@@ -61,15 +67,24 @@ public class MainActivity extends Activity {
   private LinearLayout card(LinearLayout parent){
     LinearLayout c=col();c.setPadding(dp(16),dp(16),dp(16),dp(16));
     android.graphics.drawable.GradientDrawable bg=new android.graphics.drawable.GradientDrawable();
-    bg.setColor(Color.WHITE);bg.setCornerRadius(dp(15));c.setBackground(bg);
+    bg.setColor(colors.surface);bg.setCornerRadius(dp(15));c.setBackground(bg);
     add(parent,c,12);return c;
   }
   @Override public void onCreate(Bundle state){
+    Appearance.apply(this);
     super.onCreate(state);
+    colors=Appearance.palette(this);
+    if(state!=null){
+      selected=state.getString("selectedSession");
+      latestKnown=state.getString("latestSession");
+      selectedMonth=state.getString("historyMonth","");
+      historySortMode=state.getInt("historySort",SessionCatalog.NEWEST);
+      historyVisibleCount=state.getInt("historyVisible",60);
+    }
     gattDiagnostics=getString(R.string.ui_no_service_details_yet);
     sessionAnnotations=new SessionAnnotations(this);
     LinearLayout root=col();
-    root.setBackgroundColor(0xFFF1F5F7);
+    root.setBackgroundColor(colors.background);
     LinearLayout heading=col();heading.setPadding(dp(20),dp(20),dp(20),dp(10));
     add(heading,text(getString(R.string.ui_coros_heart_rate_recorder),23,true),2);
     add(heading,text(getString(R.string.nav_subtitle),12,false),0);
@@ -77,7 +92,7 @@ public class MainActivity extends Activity {
     LinearLayout nav=new LinearLayout(this);
     nav.setOrientation(LinearLayout.HORIZONTAL);
     nav.setPadding(dp(12),dp(5),dp(12),dp(10));
-    nav.setBackgroundColor(Color.WHITE);
+    nav.setBackgroundColor(colors.surface);
     int[] labels={R.string.nav_workout,R.string.nav_history,R.string.nav_settings};
     for(int i=0;i<3;i++){
       final int page=i;
@@ -102,11 +117,30 @@ public class MainActivity extends Activity {
     add(content,homePage,0);add(content,historyPage,0);add(content,settingsPage,0);
     LinearLayout live=card(homePage);
     add(live,text(getString(R.string.ui_live_heart_rate),15,true),5);
-    heart=text("-- BPM",46,true);heart.setTextColor(0xFF007E78);add(live,heart,8);
+    heart=text("-- BPM",46,true);heart.setTextColor(colors.accent);add(live,heart,8);
     device=text(getString(R.string.ui_device_disconnected),13,false);add(live,device,4);
     battery=text(getString(R.string.ui_sensor_battery_disconnected),14,true);add(live,battery,5);
     status=text(getString(R.string.ui_status_disconnected),13,false);add(live,status,4);
     count=text(getString(R.string.ui_saved_0_samples),13,false);add(live,count,0);
+
+    LinearLayout appearance=card(settingsPage);
+    add(appearance,text(getString(R.string.appearance_title),18,true),5);
+    Spinner appearanceMode=new Spinner(this);
+    appearanceMode.setAdapter(new ArrayAdapter<>(this,android.R.layout.simple_spinner_dropdown_item,
+      new String[]{getString(R.string.appearance_follow_system),
+        getString(R.string.appearance_light),getString(R.string.appearance_dark)}));
+    appearanceMode.setSelection(Appearance.mode(this));
+    add(appearance,appearanceMode,5);
+    add(appearance,text(getString(R.string.appearance_description),12,false),0);
+    appearanceMode.setOnItemSelectedListener(new android.widget.AdapterView.OnItemSelectedListener(){
+      @Override public void onNothingSelected(android.widget.AdapterView<?> parent){}
+      @Override public void onItemSelected(android.widget.AdapterView<?> parent,View selected,int index,long id){
+        if(index!=Appearance.mode(MainActivity.this)){
+          Appearance.save(MainActivity.this,index);
+          recreate();
+        }
+      }
+    });
 
     LinearLayout ble=card(settingsPage);
     add(ble,text(getString(R.string.ui_bluetooth),18,true),5);
@@ -139,9 +173,9 @@ public class MainActivity extends Activity {
     startButton=btn(getString(R.string.ui_start_recording));add(record,startButton,4);
     stopButton=btn(getString(R.string.ui_stop_and_save));add(record,stopButton,4);
     startButton.setMinHeight(dp(56));stopButton.setMinHeight(dp(56));
-    startButton.setBackgroundTintList(android.content.res.ColorStateList.valueOf(0xFF007E78));
+    startButton.setBackgroundTintList(android.content.res.ColorStateList.valueOf(colors.positiveAction));
     startButton.setTextColor(Color.WHITE);
-    stopButton.setBackgroundTintList(android.content.res.ColorStateList.valueOf(0xFFB9493F));
+    stopButton.setBackgroundTintList(android.content.res.ColorStateList.valueOf(colors.negativeAction));
     stopButton.setTextColor(Color.WHITE);
     motionInfo=text(getString(R.string.ui_gps_off_steps_off),12,false);
     add(record,motionInfo,8);
@@ -185,6 +219,7 @@ public class MainActivity extends Activity {
     historySearch.setSingleLine(true);
     historySearch.setTextSize(14);
     historySearch.setHint(R.string.history_search_hint);
+    if(state!=null)historySearch.setText(state.getString("historyQuery",""));
     add(files,historySearch,6);
     LinearLayout historyFilters=new LinearLayout(this);
     historyFilters.setOrientation(LinearLayout.HORIZONTAL);
@@ -194,10 +229,12 @@ public class MainActivity extends Activity {
     historyOrder.setAdapter(new ArrayAdapter<>(this,android.R.layout.simple_spinner_dropdown_item,
       new String[]{getString(R.string.history_newest),getString(R.string.history_oldest),
         getString(R.string.history_name_order)}));
+    historyOrder.setSelection(historySortMode);
     historyFilters.addView(historyOrder,new LinearLayout.LayoutParams(0,dp(52),1));
     add(files,historyFilters,3);
     historyNotesOnly=new CheckBox(this);
     historyNotesOnly.setText(R.string.history_notes_only);
+    if(state!=null)historyNotesOnly.setChecked(state.getBoolean("historyNotesOnly",false));
     add(files,historyNotesOnly,6);
     historyList=col();files.addView(historyList);
     historySearch.addTextChangedListener(new TextWatcher(){
@@ -300,8 +337,8 @@ public class MainActivity extends Activity {
       boolean active=i==selectedTab;
       pages[i].setVisibility(active?View.VISIBLE:View.GONE);
       tabs[i].setBackgroundTintList(android.content.res.ColorStateList.valueOf(
-        active?0xFF007E78:0xFFE3ECEF));
-      tabs[i].setTextColor(active?Color.WHITE:0xFF18313D);
+        active?colors.positiveAction:colors.softButton));
+      tabs[i].setTextColor(active?Color.WHITE:colors.text);
       tabs[i].setTypeface(null,active?Typeface.BOLD:Typeface.NORMAL);
     }
     if(contentScroll!=null)contentScroll.post(()->contentScroll.scrollTo(0,0));
@@ -309,6 +346,13 @@ public class MainActivity extends Activity {
   }
   @Override protected void onSaveInstanceState(Bundle out){
     out.putInt("selectedTab",selectedTab);
+    out.putString("selectedSession",selected);
+    out.putString("latestSession",latestKnown);
+    out.putString("historyMonth",selectedMonth);
+    out.putInt("historySort",historySortMode);
+    out.putInt("historyVisible",historyVisibleCount);
+    if(historySearch!=null)out.putString("historyQuery",historySearch.getText().toString());
+    if(historyNotesOnly!=null)out.putBoolean("historyNotesOnly",historyNotesOnly.isChecked());
     super.onSaveInstanceState(out);
   }
   @Override public void onBackPressed(){
@@ -525,10 +569,10 @@ public class MainActivity extends Activity {
       String batteryStatus=intent.getStringExtra("batteryStatus");
       if(batteryPercent>=0){
         battery.setText(getString(R.string.ui_sensor_battery_9fe496)+batteryPercent+"%");
-        battery.setTextColor(batteryPercent<=20?0xFFC1493F:0xFF007E78);
+        battery.setTextColor(batteryPercent<=20?colors.lowBattery:colors.accent);
       }else{
         battery.setText(getString(R.string.ui_sensor_battery)+(batteryStatus==null?getString(R.string.ui_unknown):batteryStatus)+"）");
-        battery.setTextColor(0xFF60737A);
+        battery.setTextColor(colors.muted);
       }
       int bpm=intent.getIntExtra("bpm",0);
       heart.setText((bpm>0?Integer.toString(bpm):"--")+" BPM");
@@ -685,7 +729,7 @@ public class MainActivity extends Activity {
       choose.setMaxLines(2);
       choose.setEllipsize(TextUtils.TruncateAt.END);
       if(entry.filename.equals(selected)){
-        choose.setBackgroundTintList(android.content.res.ColorStateList.valueOf(0xFFD8EFEA));
+        choose.setBackgroundTintList(android.content.res.ColorStateList.valueOf(colors.selected));
       }
       line.addView(choose,new LinearLayout.LayoutParams(0,dp(66),1));
       choose.setOnClickListener(v->{selected=entry.filename;renderHistory();updateButtons();});
