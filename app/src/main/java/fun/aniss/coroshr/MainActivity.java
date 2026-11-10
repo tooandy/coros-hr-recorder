@@ -11,6 +11,7 @@ import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.*;
 import android.provider.Settings;
+import android.text.*;
 import android.view.*;
 import android.widget.*;
 import java.io.*;
@@ -21,7 +22,7 @@ public class MainActivity extends Activity {
   private final Handler handler=new Handler(Looper.getMainLooper());
   private final Map<String,BluetoothDevice> found=new LinkedHashMap<>();
   private BluetoothLeScanner scanner;
-  private boolean scanning,connected,recording,batteryReadable,showAllSessions;
+  private boolean scanning,connected,recording,batteryReadable;
   private String pendingConnectAddress,pendingConnectName;
   private String selected,latestKnown;
   private String gattDiagnostics;
@@ -30,6 +31,13 @@ public class MainActivity extends Activity {
   private boolean probeActive,probeReady;
   private String probeFileName;
   private LinearLayout deviceList,historyList;
+  private final List<SessionCatalog.Entry> sessionIndex=new ArrayList<>();
+  private SessionAnnotations sessionAnnotations;
+  private EditText historySearch;
+  private Spinner historyMonths,historyOrder;
+  private CheckBox historyNotesOnly;
+  private String selectedMonth="";
+  private int historySortMode=SessionCatalog.NEWEST,historyVisibleCount=60;
   private LinearLayout homePage,historyPage,settingsPage;
   private ScrollView contentScroll;
   private final Button[] tabs=new Button[3];
@@ -59,6 +67,7 @@ public class MainActivity extends Activity {
   @Override public void onCreate(Bundle state){
     super.onCreate(state);
     gattDiagnostics=getString(R.string.ui_no_service_details_yet);
+    sessionAnnotations=new SessionAnnotations(this);
     LinearLayout root=col();
     root.setBackgroundColor(0xFFF1F5F7);
     LinearLayout heading=col();heading.setPadding(dp(20),dp(20),dp(20),dp(10));
@@ -88,6 +97,7 @@ public class MainActivity extends Activity {
     root.addView(contentScroll,new LinearLayout.LayoutParams(-1,0,1));
     add(root,nav,0);
     setContentView(root);
+    SafeArea.apply(this,root);
     homePage=col();historyPage=col();settingsPage=col();
     add(content,homePage,0);add(content,historyPage,0);add(content,settingsPage,0);
     LinearLayout live=card(homePage);
@@ -164,13 +174,52 @@ public class MainActivity extends Activity {
       toast(getString(R.string.ui_refreshed_timestamps_are_shown_in_local_time));
     });
     Button compare=btn(getString(R.string.ui_landscape_fit_history_comparison));add(files,compare,7);
-    compare.setOnClickListener(v->startActivity(new Intent(this,CompareActivity.class)));
+    compare.setOnClickListener(v->startActivity(new Intent(this,CompareActivity.class)
+      .putExtra("focusFilename",selected)));
     label=text(getString(R.string.ui_no_recordings_yet),12,false);add(files,label,5);
     fitButton=btn(getString(R.string.ui_export_fit_activity));add(files,fitButton,4);
     csvButton=btn(getString(R.string.ui_export_raw_csv));add(files,csvButton,8);
     fitButton.setOnClickListener(v->export(true));
     csvButton.setOnClickListener(v->export(false));
+    historySearch=new EditText(this);
+    historySearch.setSingleLine(true);
+    historySearch.setTextSize(14);
+    historySearch.setHint(R.string.history_search_hint);
+    add(files,historySearch,6);
+    LinearLayout historyFilters=new LinearLayout(this);
+    historyFilters.setOrientation(LinearLayout.HORIZONTAL);
+    historyMonths=new Spinner(this);
+    historyFilters.addView(historyMonths,new LinearLayout.LayoutParams(0,dp(52),1));
+    historyOrder=new Spinner(this);
+    historyOrder.setAdapter(new ArrayAdapter<>(this,android.R.layout.simple_spinner_dropdown_item,
+      new String[]{getString(R.string.history_newest),getString(R.string.history_oldest),
+        getString(R.string.history_name_order)}));
+    historyFilters.addView(historyOrder,new LinearLayout.LayoutParams(0,dp(52),1));
+    add(files,historyFilters,3);
+    historyNotesOnly=new CheckBox(this);
+    historyNotesOnly.setText(R.string.history_notes_only);
+    add(files,historyNotesOnly,6);
     historyList=col();files.addView(historyList);
+    historySearch.addTextChangedListener(new TextWatcher(){
+      public void beforeTextChanged(CharSequence c,int a,int n,int f){}
+      public void onTextChanged(CharSequence c,int a,int before,int count){historyVisibleCount=60;renderHistory();}
+      public void afterTextChanged(Editable e){}
+    });
+    historyNotesOnly.setOnCheckedChangeListener((button,value)->{historyVisibleCount=60;renderHistory();});
+    historyOrder.setOnItemSelectedListener(new android.widget.AdapterView.OnItemSelectedListener(){
+      public void onNothingSelected(android.widget.AdapterView<?> parent){}
+      public void onItemSelected(android.widget.AdapterView<?> parent,View item,int position,long id){
+        historySortMode=position;historyVisibleCount=60;renderHistory();
+      }
+    });
+    historyMonths.setOnItemSelectedListener(new android.widget.AdapterView.OnItemSelectedListener(){
+      public void onNothingSelected(android.widget.AdapterView<?> parent){}
+      public void onItemSelected(android.widget.AdapterView<?> parent,View item,int position,long id){
+        Object value=historyMonths.getItemAtPosition(position);
+        selectedMonth=position==0?"":String.valueOf(value);
+        historyVisibleCount=60;renderHistory();
+      }
+    });
 
     LinearLayout sensors=card(settingsPage);
     add(sensors,text(getString(R.string.settings_sensor_options),18,true),6);
@@ -560,41 +609,133 @@ public class MainActivity extends Activity {
   }
   private void refresh(){
     File dir=new File(getFilesDir(),"sessions");
-    File[] files=dir.listFiles((d,n)->n.endsWith(".csv"));
-    historyList.removeAllViews();
+    File[] files=dir.listFiles((d,n)->n.toLowerCase(Locale.ROOT).endsWith(".csv"));
+    sessionIndex.clear();
     if(files==null||files.length==0){
       selected=null;latestKnown=null;
-      label.setText(getString(R.string.ui_no_heart_rate_recordings));updateButtons();return;
+      label.setText(R.string.ui_no_heart_rate_recordings);
+      updateMonthOptions();renderHistory();updateButtons();return;
     }
-    // UTC filenames sort chronologically, but display dates in phone local time.
     Arrays.sort(files,(a,b)->b.getName().compareTo(a.getName()));
     String newest=files[0].getName();
     if(!newest.equals(latestKnown)){
-      // Auto-select a new recording; preserve the user's manual selection
-      // when the latest file hasn't changed.
-      selected=newest;
-      latestKnown=newest;
-    }else if(selected==null||!new File(dir,selected).isFile()){
-      selected=newest;
+      selected=newest;latestKnown=newest;
+    }else if(selected==null||!new File(dir,selected).isFile())selected=newest;
+    TimeZone tz=TimeZone.getDefault();
+    for(File file:files){
+      String filename=file.getName();
+      Date began=SessionHistory.startedAt(filename);
+      long time=began==null?file.lastModified():began.getTime();
+      String fallback=SessionHistory.localLabel(filename,tz);
+      sessionIndex.add(new SessionCatalog.Entry(filename,
+        sessionAnnotations.displayName(filename,fallback),sessionAnnotations.note(filename),time));
     }
-    String local=SessionHistory.localLabel(selected,TimeZone.getDefault());
-    label.setText(getString(R.string.ui_selected)+local+getString(R.string.ui_local_n)+selected+getString(R.string.ui_ntotal)+files.length+getString(R.string.ui_sessions));
-    int limit=showAllSessions?files.length:Math.min(20,files.length);
-    for(int n=0;n<limit;n++){
-      final String fn=files[n].getName();
-      String display=SessionHistory.localLabel(fn,TimeZone.getDefault());
-      String prefix=fn.equals(selected)?"✓  ":"";
-      Button b=btn(prefix+display+getString(R.string.ui_local_n)+fn);
-      b.setTextSize(12);
-      add(historyList,b,3);
-      b.setOnClickListener(v->{selected=fn;refresh();});
+    updateMonthOptions();renderHistory();updateButtons();
+  }
+  private void updateMonthOptions(){
+    if(historyMonths==null)return;
+    String keep=selectedMonth;
+    TreeSet<String> months=new TreeSet<>(Collections.reverseOrder());
+    for(SessionCatalog.Entry entry:sessionIndex)
+      months.add(SessionCatalog.month(entry.startMillis,TimeZone.getDefault()));
+    List<String> options=new ArrayList<>();
+    options.add(getString(R.string.history_all_months));
+    options.addAll(months);
+    historyMonths.setAdapter(new ArrayAdapter<>(this,
+      android.R.layout.simple_spinner_dropdown_item,options));
+    int idx=keep.isEmpty()?0:options.indexOf(keep);
+    if(idx<0)idx=0;
+    selectedMonth=idx==0?"":options.get(idx);
+    historyMonths.setSelection(idx);
+  }
+  private void renderHistory(){
+    if(historyList==null||label==null||sessionAnnotations==null)return;
+    int previousY=contentScroll.getScrollY();
+    historyList.removeAllViews();
+    List<SessionCatalog.Entry> entries=SessionCatalog.filter(sessionIndex,
+      historySearch==null?"":historySearch.getText().toString(),selectedMonth,
+      historyNotesOnly!=null&&historyNotesOnly.isChecked(),historySortMode,
+      TimeZone.getDefault());
+    String chosen=selected==null?getString(R.string.ui_no_recordings_yet):
+      sessionAnnotations.displayName(selected,SessionHistory.localLabel(selected,TimeZone.getDefault()));
+    label.setText(getString(R.string.history_selected_summary,chosen,entries.size(),sessionIndex.size()));
+    if(entries.isEmpty()){
+      add(historyList,text(getString(R.string.history_no_matches),14,false),8);
+      return;
     }
-    if(files.length>20){
-      Button toggle=btn(showAllSessions?getString(R.string.ui_show_latest_20_only):getString(R.string.ui_show_all)+files.length+getString(R.string.ui_sessions_eb8c2d));
-      add(historyList,toggle,2);
-      toggle.setOnClickListener(v->{showAllSessions=!showAllSessions;refresh();});
+    String priorMonth="";
+    int count=Math.min(historyVisibleCount,entries.size());
+    for(int i=0;i<count;i++){
+      SessionCatalog.Entry entry=entries.get(i);
+      String month=SessionCatalog.month(entry.startMillis,TimeZone.getDefault());
+      if(historySortMode!=SessionCatalog.NAME&&!month.equals(priorMonth)){
+        TextView heading=text(getString(R.string.history_group_month,month),15,true);
+        heading.setPadding(dp(5),dp(12),0,dp(6));
+        add(historyList,heading,3);
+        priorMonth=month;
+      }
+      LinearLayout line=new LinearLayout(this);
+      line.setOrientation(LinearLayout.HORIZONTAL);
+      line.setGravity(Gravity.CENTER_VERTICAL);
+      Button choose=btn((entry.filename.equals(selected)?"✓  ":"")+entry.title+"  · "+
+        new java.text.SimpleDateFormat("MM-dd HH:mm",Locale.getDefault()).format(new Date(entry.startMillis))+
+        (entry.note.isEmpty()?"":"  📝"));
+      choose.setTextSize(12);
+      choose.setGravity(Gravity.CENTER_VERTICAL|Gravity.START);
+      choose.setMaxLines(2);
+      choose.setEllipsize(TextUtils.TruncateAt.END);
+      if(entry.filename.equals(selected)){
+        choose.setBackgroundTintList(android.content.res.ColorStateList.valueOf(0xFFD8EFEA));
+      }
+      line.addView(choose,new LinearLayout.LayoutParams(0,dp(66),1));
+      choose.setOnClickListener(v->{selected=entry.filename;renderHistory();updateButtons();});
+      Button edit=btn(getString(R.string.history_edit));
+      edit.setTextSize(12);edit.setMinWidth(0);
+      line.addView(edit,new LinearLayout.LayoutParams(dp(72),dp(66)));
+      edit.setOnClickListener(v->editSession(entry));
+      add(historyList,line,4);
+      if(!entry.note.isEmpty()){
+        TextView note=text(entry.note,12,false);
+        note.setPadding(dp(8),0,dp(8),0);note.setMaxLines(2);
+        note.setEllipsize(TextUtils.TruncateAt.END);
+        add(historyList,note,7);
+      }
     }
-    updateButtons();
+    if(entries.size()>count){
+      Button more=btn(getString(R.string.history_load_more,entries.size()-count));
+      add(historyList,more,8);
+      more.setOnClickListener(v->{historyVisibleCount+=60;renderHistory();});
+    }
+    if(selectedTab==1)contentScroll.post(()->contentScroll.scrollTo(0,previousY));
+  }
+  private void editSession(SessionCatalog.Entry entry){
+    LinearLayout editor=col();editor.setPadding(dp(20),dp(8),dp(20),0);
+    add(editor,text(getString(R.string.history_name),13,true),2);
+    EditText title=new EditText(this);
+    title.setSingleLine(true);title.setMaxLines(1);
+    title.setFilters(new InputFilter[]{new InputFilter.LengthFilter(80)});
+    title.setHint(entry.filename);
+    title.setText(sessionAnnotations.name(entry.filename));
+    add(editor,title,8);
+    add(editor,text(getString(R.string.history_note),13,true),2);
+    EditText note=new EditText(this);
+    note.setInputType(android.text.InputType.TYPE_CLASS_TEXT|
+      android.text.InputType.TYPE_TEXT_FLAG_MULTI_LINE|
+      android.text.InputType.TYPE_TEXT_FLAG_CAP_SENTENCES);
+    note.setMinLines(3);note.setMaxLines(5);
+    note.setFilters(new InputFilter[]{new InputFilter.LengthFilter(600)});
+    note.setHint(R.string.history_note_hint);
+    note.setText(entry.note);
+    add(editor,note,4);
+    new AlertDialog.Builder(this).setTitle(R.string.history_edit_title)
+      .setView(editor)
+      .setNegativeButton(android.R.string.cancel,null)
+      .setPositiveButton(R.string.history_save,(dialog,which)->{
+        if(!sessionAnnotations.save(entry.filename,title.getText().toString(),note.getText().toString())){
+          toast(getString(R.string.history_save_failed));return;
+        }
+        refresh();
+      }).show();
   }
   private void exportProbe(){
     if(probeActive){toast(getString(R.string.ui_wait_for_diagnostics_to_finish));return;}

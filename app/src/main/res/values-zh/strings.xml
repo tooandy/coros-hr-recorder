@@ -287,4 +287,21 @@
   <string name="confirm_stop_title">结束本次运动？</string>
   <string name="confirm_stop_message">停止记录并保存本次运动？保存后无法继续这一段记录。</string>
   <string name="confirm_stop_action">停止并保存</string>
+  <string name="history_search_hint">搜索名称、备注、文件名或日期</string>
+  <string name="history_newest">时间倒序</string>
+  <string name="history_oldest">时间正序</string>
+  <string name="history_name_order">名称排序</string>
+  <string name="history_notes_only">只看有备注的记录</string>
+  <string name="history_all_months">全部月份</string>
+  <string name="history_selected_summary" formatted="true">当前选择：%1$s · 符合%2$d条 / 共%3$d条</string>
+  <string name="history_no_matches">没有符合条件的记录</string>
+  <string name="history_group_month" formatted="true">%1$s</string>
+  <string name="history_edit">编辑</string>
+  <string name="history_load_more" formatted="true">加载更多（剩余%1$d条）</string>
+  <string name="history_name">运动名称（可选）</string>
+  <string name="history_note">备注（可选）</string>
+  <string name="history_note_hint">天气、训练类型、体感、补给等</string>
+  <string name="history_edit_title">编辑记录名称与备注</string>
+  <string name="history_save">保存</string>
+  <string name="history_save_failed">保存记录说明失败</string>
 </resources>

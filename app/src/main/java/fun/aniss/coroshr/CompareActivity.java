@@ -37,6 +37,8 @@ public final class CompareActivity extends Activity {
   private Spinner alignment,dateFilter;
   private boolean loading,initialLoad=true;
   private String filter="";
+  private SessionAnnotations annotations;
+  private String focusFilename;
   private int mode=HrSeries.ABSOLUTE;
   private int dateFilterIndex;
   private boolean useIntersection=true;
@@ -55,12 +57,14 @@ public final class CompareActivity extends Activity {
   private LinearLayout column(){LinearLayout l=new LinearLayout(this);l.setOrientation(1);return l;}
   @Override public void onCreate(Bundle b){
     super.onCreate(b);
+    annotations=new SessionAnnotations(this);
+    focusFilename=getIntent().getStringExtra("focusFilename");
     setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
     buildUi();
     loadFiles(false);
   }
   private void buildUi(){
-    LinearLayout root=column();root.setBackgroundColor(0xFFF3F6F8);setContentView(root);
+    LinearLayout root=column();root.setBackgroundColor(0xFFF3F6F8);setContentView(root);SafeArea.apply(this,root);
     HorizontalScrollView controls=new HorizontalScrollView(this);
     controls.setHorizontalScrollBarEnabled(false);
     topBar=row();topBar.setGravity(Gravity.CENTER_VERTICAL);
@@ -168,9 +172,16 @@ public final class CompareActivity extends Activity {
       File[] imports=importedDir().listFiles((d,n)->n.toLowerCase(Locale.ROOT).endsWith(".fit")||n.toLowerCase(Locale.ROOT).endsWith(".csv"));
       if(imports!=null)Collections.addAll(files,imports);
       files.sort((a,b)->Long.compare(b.lastModified(),a.lastModified()));
+      // Ensure the historical session selected on the main History tab is
+      // accessible even if older than the latest 100 imported sessions.
+      if(focusFilename!=null){
+        for(int i=0;i<files.size();i++)if(files.get(i).getName().equals(focusFilename)){
+          File focused=files.remove(i);files.add(0,focused);break;
+        }
+      }
       for(File file:files){
         if(loaded.size()>=100){errors.add(getString(R.string.ui_more_than_100_files_showing_latest_100));break;}
-        try{loaded.add(HrSeries.load(file,title(file),file.getParentFile().equals(importedDir())));}
+        try{loaded.add(HrSeries.load(file,annotations.displayName(file.getName(),title(file)),file.getParentFile().equals(importedDir())));}
         catch(Exception e){errors.add(title(file)+": "+e.getMessage());}
       }
       loaded.sort((a,b)->Long.compare(b.start,a.start));
@@ -178,8 +189,11 @@ public final class CompareActivity extends Activity {
         if(isFinishing()||isDestroyed())return;
         all.clear();all.addAll(loaded);
         checked.retainAll(fileKeys(loaded));
-        if(initialLoad&&checked.isEmpty()&&!loaded.isEmpty())
-          checked.add(loaded.get(0).file.getAbsolutePath());
+        if(initialLoad&&checked.isEmpty()&&!loaded.isEmpty()){
+          HrSeries focus=null;
+          for(HrSeries item:loaded){if(item.file.getName().equals(focusFilename)){focus=item;break;}}
+          checked.add((focus==null?loaded.get(0):focus).file.getAbsolutePath());
+        }
         initialLoad=false;loading=false;
         status.setText(all.size()+getString(R.string.ui_sessions_selected)+checked.size());
         renderFiles();rebuildChart();
@@ -207,7 +221,8 @@ public final class CompareActivity extends Activity {
       String key=s.file.getAbsolutePath();
       if(chosenOnly!=null&&chosenOnly.isChecked()&&!checked.contains(key))continue;
       if(!passesDate(s))continue;
-      if(!filter.isEmpty()&&!(s.name+" "+s.timeLabel()).toLowerCase(Locale.ROOT).contains(filter))continue;
+      if(!filter.isEmpty()&&!(s.name+" "+s.timeLabel()+" "+
+          annotations.note(s.file.getName())).toLowerCase(Locale.ROOT).contains(filter))continue;
       visible++;
       LinearLayout line=column();line.setPadding(0,0,0,dp(7));
       CheckBox check=new CheckBox(this);
@@ -236,6 +251,7 @@ public final class CompareActivity extends Activity {
           .setNegativeButton(getString(R.string.ui_cancel),null)
           .setPositiveButton(getString(R.string.ui_delete),(dialog,w)->{
             if(!s.file.delete()){toast(getString(R.string.ui_delete_failed));return;}
+            annotations.delete(s.file.getName());
             checked.remove(key);loadFiles(false);
           }).show());
         line.addView(remove);

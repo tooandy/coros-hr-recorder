@@ -2,6 +2,11 @@
 
 ## [Unreleased] — UI reorganization and spoken HR brevity
 
+- Respect status/navigation bars and camera display cutouts in portrait and landscape using Android WindowInsets; no fixed camera coordinates.
+- Add local session titles and notes without changing original FIT/CSV filenames; search name/note/date/filename, filter by month or notes, sort by time/name, group by month, and render larger collections in batches.
+- Focus an older selected history session in the landscape FIT/CSV comparison, even if outside the newest 100.
+- Regenerate app launcher icons by cropping the white border and using the blue/teal tile background.
+
 - Replace a long single-page home with three persistent bottom tabs: Workout, History, Settings.
 - Keep live HR, recording state, GPS/steps summary and the one relevant Start/Stop & Save action on Workout; Stop & Save now requires confirmation.
 - Move session selection, FIT/CSV export and comparison to History; Bluetooth setup, sensor preferences, TTS configuration and passive BLE diagnostics to Settings.

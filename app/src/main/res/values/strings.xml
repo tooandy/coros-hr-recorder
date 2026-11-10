@@ -287,4 +287,21 @@
   <string name="confirm_stop_title">Finish workout?</string>
   <string name="confirm_stop_message">Stop recording and save this session? You cannot resume this session after saving.</string>
   <string name="confirm_stop_action">Stop &amp; save</string>
+  <string name="history_search_hint">Search name, note, filename or date</string>
+  <string name="history_newest">Newest first</string>
+  <string name="history_oldest">Oldest first</string>
+  <string name="history_name_order">Name A–Z</string>
+  <string name="history_notes_only">Show only sessions with notes</string>
+  <string name="history_all_months">All months</string>
+  <string name="history_selected_summary" formatted="true">Selected: %1$s · %2$d matching / %3$d total</string>
+  <string name="history_no_matches">No sessions match these filters</string>
+  <string name="history_group_month" formatted="true">%1$s</string>
+  <string name="history_edit">Edit</string>
+  <string name="history_load_more" formatted="true">Show more (%1$d remaining)</string>
+  <string name="history_name">Session name (optional)</string>
+  <string name="history_note">Notes (optional)</string>
+  <string name="history_note_hint">Weather, training type, feelings, nutrition…</string>
+  <string name="history_edit_title">Edit session details</string>
+  <string name="history_save">Save</string>
+  <string name="history_save_failed">Unable to save session details</string>
 </resources>

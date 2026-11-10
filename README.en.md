@@ -18,6 +18,8 @@
 
 ## Screen layout
 
+Both portrait and landscape screens respect system bars and display cutout safe insets. The History tab supports local names and notes, search (title/note/date/filename), month filtering and grouping, sorting and paginated records. These annotations do not rename raw FIT/CSV files. The launcher icon trims the original white frame.
+
 The app uses three bottom tabs: **Workout** for live HR and recording controls, **History** for session selection and FIT/CSV export, and **Settings** for Bluetooth, GPS/steps, voice reminders and BLE diagnostics. Tab switching does not stop an ongoing session. Pause/resume is not yet available; Stop & Save finishes the session after confirmation to avoid accidental taps. Spoken reminders are short (“Current heart rate 150” or “当前心率150” depending on system language), while visual notifications retain BPM.
 
 ## Install and compatibility

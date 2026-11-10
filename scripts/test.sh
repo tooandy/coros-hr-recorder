@@ -12,6 +12,8 @@ javac -d .tools/ci/reminder app/src/main/java/fun/aniss/coroshr/HrReminderSchedu
 java -cp .tools/ci/reminder fun.aniss.coroshr.HrReminderScheduleSmokeTest
 javac -d .tools/ci/history app/src/main/java/fun/aniss/coroshr/SessionHistory.java scripts/SessionHistorySmokeTest.java
 java -cp .tools/ci/history fun.aniss.coroshr.SessionHistorySmokeTest
+javac -d .tools/ci/history app/src/main/java/fun/aniss/coroshr/SessionCatalog.java scripts/SessionCatalogSmokeTest.java
+java -cp .tools/ci/history fun.aniss.coroshr.SessionCatalogSmokeTest
 FIT_JAR=$(find "$HOME/.gradle/caches/modules-2/files-2.1/com.garmin/fit/21.205.0" -name '*.jar' -print -quit 2>/dev/null || true)
 if [[ -z "$FIT_JAR" || ! -f "$FIT_JAR" ]]; then
   echo 'Garmin FIT JAR not found. Run ./gradlew :app:compileDebugJavaWithJavac first.' >&2
