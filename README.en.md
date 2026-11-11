@@ -16,6 +16,20 @@
 - Passive BLE diagnostics that capture raw proprietary notifications without sending unknown vendor commands.
 - No account or Internet permission. Exercise files may contain identifiable GPS routes; check before sharing.
 
+## Independent auto-connect and auto-record
+
+In **Settings → Bluetooth**, toggle whether opening the app reconnects the last paired heart rate sensor. Independently, **Settings → Recording startup** controls whether an established connection (manual or automatic) starts recording. All four combinations work. Existing recording preferences are preserved; auto-connect defaults to on to retain the behavior of previous versions.
+
+## Appearance
+
+Under **Settings → Appearance**, choose **Follow system** (default), **Light**, or **Dark**. The choice is saved locally and applied immediately to the workout screen, session history, landscape chart and dialogs. In Follow system mode, Android light/dark changes automatically update the appearance. Switching themes recreates the visible Activity but does not stop an ongoing foreground heart rate recording.
+
+## Screen layout
+
+Both portrait and landscape screens respect system bars and display cutout safe insets. The History tab supports local names and notes, search (title/note/date/filename), month filtering and grouping, sorting and paginated records. These annotations do not rename raw FIT/CSV files. The launcher icon trims the original white frame.
+
+The app uses three bottom tabs: **Workout** for live HR and recording controls, **History** for session selection and FIT/CSV export, and **Settings** for Bluetooth, GPS/steps, voice reminders and BLE diagnostics. Tab switching does not stop an ongoing session. Pause/resume is not yet available; Stop & Save finishes the session after confirmation to avoid accidental taps. Spoken reminders are short (“Current heart rate 150” or “当前心率150” depending on system language), while visual notifications retain BPM.
+
 ## Install and compatibility
 
 Android 8.0+ (minSdk 26), compileSdk 36, targetSdk 35. Java-only code uses no native libraries; a **single universal APK** is compatible with arm64-v8a, armeabi-v7a, x86 and x86_64. CI fails if native libraries are introduced without review.
@@ -38,7 +52,7 @@ GitHub Actions builds the universal APK on every main branch push, PR and manual
 
 Default English resources: app/src/main/res/values/strings.xml. Simplified Chinese: app/src/main/res/values-zh/strings.xml. Check translation parity with python3 scripts/check_locales.py. The Android system chooses the appropriate locale automatically. A working Android TTS engine for that language is required for spoken output; Chinese devices may need to enable/download the Chinese speech pack.
 
-See [AGENTS.md](AGENTS.md) for contributor/agent instructions, [CHANGELOG.md](CHANGELOG.md) for history, and [v0.5.0 release notes](docs/releases/v0.5.0.md).
+See [AGENTS.md](AGENTS.md) for contributor/agent instructions, [CHANGELOG.md](CHANGELOG.md) for history, and [v0.5.1 release notes](docs/releases/v0.5.1.md) ([v0.5.0](docs/releases/v0.5.0.md)).
 
 ## License
 

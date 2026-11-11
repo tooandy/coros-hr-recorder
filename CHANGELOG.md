@@ -1,5 +1,26 @@
 # Changelog / 更新记录
 
+## [0.5.1] — 2026-11-11 (UI, history and appearance)
+
+- Split BLE auto-connect and auto-start recording into independent settings. Startup connection only follows the auto-connect toggle; every successful manual/automatic connection independently follows auto-record. Existing auto-record preference is preserved, as is the previous automatic connection default.
+
+- Add selectable appearance modes: Light, Dark, and Follow system (default). Persist user choice and recreate Activity UI on change without restarting the foreground recording service.
+- Apply the dark palette to Workout, History, Settings, landscape FIT/CSV comparison, chart grids and traces, dialogs, Android controls, status/navigation bars. Keep the active tab and history search/selection across theme recreation.
+- Add JVM regression checks for the appearance selection policy and both system UI mode values.
+
+- Respect status/navigation bars and camera display cutouts in portrait and landscape using Android WindowInsets; no fixed camera coordinates.
+- Add local session titles and notes without changing original FIT/CSV filenames; search name/note/date/filename, filter by month or notes, sort by time/name, group by month, and render larger collections in batches.
+- Focus an older selected history session in the landscape FIT/CSV comparison, even if outside the newest 100.
+- Regenerate app launcher icons by cropping the white border and using the blue/teal tile background.
+
+- Replace a long single-page home with three persistent bottom tabs: Workout, History, Settings.
+- Keep live HR, recording state, GPS/steps summary and the one relevant Start/Stop & Save action on Workout; Stop & Save now requires confirmation.
+- Move session selection, FIT/CSV export and comparison to History; Bluetooth setup, sensor preferences, TTS configuration and passive BLE diagnostics to Settings.
+- Preserve saved user preferences and live service recording when switching tabs; show last selected tab after Activity recreation.
+- Chinese TTS now says “当前心率150” instead of “当前心率150次每分钟”; English now says “Current heart rate 150”. Preview uses identical concise phrases.
+- Pause/resume recording is not implemented yet; existing Stop & Save behavior remains.
+
+
 ## [0.5.0] — 2026-11-07 (initial public-source release)
 
 ### Added

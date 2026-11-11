@@ -28,6 +28,7 @@ public final class GenerateAndroidIcons {
     BufferedImage destination=img(size);
     Graphics2D g=graphics(destination);
     if(round)g.setClip(new Ellipse2D.Double(0,0,size,size));
+    else g.setClip(new RoundRectangle2D.Double(0,0,size,size,size*.38,size*.38));
     g.drawImage(source,0,0,size,size,null);g.dispose();
     return destination;
   }
@@ -53,6 +54,11 @@ public final class GenerateAndroidIcons {
     BufferedImage source=ImageIO.read(Path.of(args[0]).toFile());
     if(source==null||source.getWidth()<256||source.getHeight()<256||
         source.getWidth()!=source.getHeight())throw new IOException("Expected square 256+px logo");
+    // The supplied artwork contains a white outline around its blue tile.
+    // Crop inside that outline, then apply the launcher mask ourselves;
+    // otherwise the white ring survives both legacy and adaptive icons.
+    int trim=Math.round(source.getWidth()*0.035f);
+    source=source.getSubimage(trim,trim,source.getWidth()-2*trim,source.getHeight()-2*trim);
     Path res=Path.of(args[1]);
     for(int i=0;i<DENSITIES.length;i++){
       Path dir=res.resolve("mipmap-"+DENSITIES[i]);
@@ -61,15 +67,10 @@ public final class GenerateAndroidIcons {
       write(dir.resolve("ic_launcher_round.png"),scaled(source,legacy,true));
       write(dir.resolve("ic_launcher_foreground.png"),foreground(source,adaptive));
     }
-    // Solid background closely matching original corner palette prevents a
-    // visible square edge when the image is rendered on a masked adaptive icon.
-    int[] c={
-      source.getRGB(0,0),source.getRGB(source.getWidth()-1,0),
-      source.getRGB(0,source.getHeight()-1),
-      source.getRGB(source.getWidth()-1,source.getHeight()-1)};
-    int red=0,green=0,blue=0;
-    for(int value:c){red+=(value>>16)&255;green+=(value>>8)&255;blue+=value&255;}
-    String color=String.format("#%02X%02X%02X",red/4,green/4,blue/4);
+    // Use the actual dark teal edge (NOT the old white canvas) behind
+    // the masked icon, so Android launcher shapes never expose white rims.
+    int edge=source.getRGB(1,source.getHeight()/2);
+    String color=String.format("#%06X",edge&0xffffff);
     Path values=res.resolve("values/ic_launcher_background.xml");
     Files.createDirectories(values.getParent());
     Files.writeString(values,"<?xml version=\"1.0\" encoding=\"utf-8\"?>\n"+
@@ -85,6 +86,6 @@ public final class GenerateAndroidIcons {
     Files.writeString(v26.resolve("ic_launcher_round.xml"),adaptiveIcon);
     System.out.println("Generated 5 density icons + adaptive foreground, size="+
       source.getWidth()+"x"+source.getHeight()+", corner background="+color);
-    for(int j=0;j<4;j++)System.out.println("Corner"+j+"=#"+String.format("%06X",c[j]&0xffffff));
+
   }
 }
