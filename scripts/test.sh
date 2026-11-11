@@ -12,6 +12,8 @@ javac -d .tools/ci/reminder app/src/main/java/fun/aniss/coroshr/HrReminderSchedu
 java -cp .tools/ci/reminder fun.aniss.coroshr.HrReminderScheduleSmokeTest
 javac -d .tools/ci/reminder app/src/main/java/fun/aniss/coroshr/AppearanceModePolicy.java scripts/AppearanceModeSmokeTest.java
 java -cp .tools/ci/reminder fun.aniss.coroshr.AppearanceModeSmokeTest
+javac -d .tools/ci/reminder app/src/main/java/fun/aniss/coroshr/AutoSessionPolicy.java scripts/AutoSessionPolicySmokeTest.java
+java -cp .tools/ci/reminder fun.aniss.coroshr.AutoSessionPolicySmokeTest
 javac -d .tools/ci/history app/src/main/java/fun/aniss/coroshr/SessionHistory.java scripts/SessionHistorySmokeTest.java
 java -cp .tools/ci/history fun.aniss.coroshr.SessionHistorySmokeTest
 javac -d .tools/ci/history app/src/main/java/fun/aniss/coroshr/SessionCatalog.java scripts/SessionCatalogSmokeTest.java

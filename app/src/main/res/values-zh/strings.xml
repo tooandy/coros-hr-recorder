@@ -309,4 +309,9 @@
   <string name="appearance_light">浅色</string>
   <string name="appearance_dark">深色</string>
   <string name="appearance_description">可以手动选择，或跟随手机深浅色设置。运动主页和横屏图表同步切换。</string>
+  <string name="settings_auto_connect_sensor">打开 App 时自动连接上次的心率臂带</string>
+  <string name="settings_auto_connect_hint">只控制启动时的连接，关闭后仍可以手动扫描并连接。</string>
+  <string name="settings_recording_start">录制启动方式</string>
+  <string name="settings_auto_record_after_connection">连接成功后自动开始记录</string>
+  <string name="settings_auto_record_hint">自动连接、手动连接均适用；关闭后可在「运动」页手动开始记录。</string>
 </resources>

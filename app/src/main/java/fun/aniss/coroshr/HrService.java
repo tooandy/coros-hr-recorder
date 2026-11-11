@@ -135,7 +135,7 @@ public class HrService extends Service {
       deviceName=intent.getStringExtra(NAME);
       if(deviceName==null||deviceName.isEmpty())deviceName=getString(R.string.ui_previously_connected_heart_rate_sensor);
       shuttingDown=false;
-      autoStartPending=intent.getBooleanExtra("autoRecord",false);
+      autoStartPending=AutoSessionPolicy.startAfterConnection(intent.getBooleanExtra("autoRecord",false));
       gpsRequested=intent.getBooleanExtra("gps",false);
       stepsRequested=intent.getBooleanExtra("steps",false);
       foreground();connect();
@@ -145,7 +145,7 @@ public class HrService extends Service {
         // Reopening a fresh activity while the service is still alive should
         // reuse the BLE connection. If idle, start one new session; if still
         // connecting, arm autostart for the subscription-complete callback.
-        boolean requested=intent.getBooleanExtra("autoRecord",false);
+        boolean requested=AutoSessionPolicy.startAfterConnection(intent.getBooleanExtra("autoRecord",false));
         autoStartPending=requested&&!subscribed;
         gpsRequested=intent.getBooleanExtra("gps",false);
         stepsRequested=intent.getBooleanExtra("steps",false);
@@ -160,7 +160,7 @@ public class HrService extends Service {
       }
       address=remembered;
       deviceName=saved.getString("name",getString(R.string.ui_previously_connected_heart_rate_sensor));
-      autoStartPending=intent.getBooleanExtra("autoRecord",false);
+      autoStartPending=AutoSessionPolicy.startAfterConnection(intent.getBooleanExtra("autoRecord",false));
       gpsRequested=intent.getBooleanExtra("gps",false);
       stepsRequested=intent.getBooleanExtra("steps",false);
       shuttingDown=false;

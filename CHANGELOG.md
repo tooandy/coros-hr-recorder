@@ -2,6 +2,8 @@
 
 ## [Unreleased] — UI reorganization and spoken HR brevity
 
+- Split BLE auto-connect and auto-start recording into independent settings. Startup connection only follows the auto-connect toggle; every successful manual/automatic connection independently follows auto-record. Existing auto-record preference is preserved, as is the previous automatic connection default.
+
 - Add selectable appearance modes: Light, Dark, and Follow system (default). Persist user choice and recreate Activity UI on change without restarting the foreground recording service.
 - Apply the dark palette to Workout, History, Settings, landscape FIT/CSV comparison, chart grids and traces, dialogs, Android controls, status/navigation bars. Keep the active tab and history search/selection across theme recreation.
 - Add JVM regression checks for the appearance selection policy and both system UI mode values.

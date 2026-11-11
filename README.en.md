@@ -16,6 +16,10 @@
 - Passive BLE diagnostics that capture raw proprietary notifications without sending unknown vendor commands.
 - No account or Internet permission. Exercise files may contain identifiable GPS routes; check before sharing.
 
+## Independent auto-connect and auto-record
+
+In **Settings → Bluetooth**, toggle whether opening the app reconnects the last paired heart rate sensor. Independently, **Settings → Recording startup** controls whether an established connection (manual or automatic) starts recording. All four combinations work. Existing recording preferences are preserved; auto-connect defaults to on to retain the behavior of previous versions.
+
 ## Appearance
 
 Under **Settings → Appearance**, choose **Follow system** (default), **Light**, or **Dark**. The choice is saved locally and applied immediately to the workout screen, session history, landscape chart and dialogs. In Follow system mode, Android light/dark changes automatically update the appearance. Switching themes recreates the visible Activity but does not stop an ongoing foreground heart rate recording.

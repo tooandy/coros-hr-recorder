@@ -309,4 +309,9 @@
   <string name="appearance_light">Light</string>
   <string name="appearance_dark">Dark</string>
   <string name="appearance_description">Choose manually or follow your phone’s light/dark setting. Changes apply to both screens.</string>
+  <string name="settings_auto_connect_sensor">Auto-connect to the last sensor when opening the app</string>
+  <string name="settings_auto_connect_hint">Controls startup connection only. You can always scan and connect manually.</string>
+  <string name="settings_recording_start">Recording startup</string>
+  <string name="settings_auto_record_after_connection">Start recording automatically after connection</string>
+  <string name="settings_auto_record_hint">Works after either manual or automatic connection. Turn off to start recording yourself on Workout.</string>
 </resources>

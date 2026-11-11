@@ -44,7 +44,7 @@ public class MainActivity extends Activity {
   private int selectedTab;
   private TextView heart,status,device,battery,count,label,motionInfo,probeStatus,probeCounts,lastDeviceLabel,reminderStatus,ttsStatusView,homeReminder;
   private Button scanButton,startButton,stopButton,fitButton,csvButton,batteryRefreshButton,diagnosticsButton,probeStartButton,probeStopButton,probeExportButton,homeDeviceButton;
-  private CheckBox gpsCheck,stepsCheck,autoRecordCheck,reminderCheck;
+  private CheckBox gpsCheck,stepsCheck,autoConnectCheck,autoRecordCheck,reminderCheck;
   private EditText reminderMinutesInput;
   private Appearance.Palette colors;
   private int dp(int px){return Math.round(px*getResources().getDisplayMetrics().density);}
@@ -146,13 +146,16 @@ public class MainActivity extends Activity {
     add(ble,text(getString(R.string.ui_bluetooth),18,true),5);
     lastDeviceLabel=text(getString(R.string.ui_last_sensor_remembered_after_first_connection),13,false);
     add(ble,lastDeviceLabel,4);
-    autoRecordCheck=new CheckBox(this);
-    autoRecordCheck.setText(getString(R.string.ui_auto_connect_and_start_recording_when_opening));
-    autoRecordCheck.setTextSize(13);
-    autoRecordCheck.setChecked(getPreferences(0).getBoolean("autoRecord",true));
-    add(ble,autoRecordCheck,6);
-    autoRecordCheck.setOnCheckedChangeListener((v,value)->
-      getPreferences(0).edit().putBoolean("autoRecord",value).apply());
+    autoConnectCheck=new CheckBox(this);
+    autoConnectCheck.setText(R.string.settings_auto_connect_sensor);
+    autoConnectCheck.setTextSize(13);
+    // Previously every fresh launch attempted to restore the BLE connection,
+    // even when autoRecord was unchecked. Keep this existing user behavior.
+    autoConnectCheck.setChecked(getPreferences(0).getBoolean("autoConnect",true));
+    add(ble,autoConnectCheck,3);
+    autoConnectCheck.setOnCheckedChangeListener((v,value)->
+      getPreferences(0).edit().putBoolean("autoConnect",value).apply());
+    add(ble,text(getString(R.string.settings_auto_connect_hint),12,false),7);
     scanButton=btn(getString(R.string.ui_scan_for_nearby_bluetooth_devices));add(ble,scanButton,7);
     batteryRefreshButton=btn(getString(R.string.ui_refresh_sensor_battery));add(ble,batteryRefreshButton,7);
     batteryRefreshButton.setOnClickListener(v->command(HrService.REFRESH_BATTERY,null,null));
@@ -259,6 +262,15 @@ public class MainActivity extends Activity {
     });
 
     LinearLayout sensors=card(settingsPage);
+    add(sensors,text(getString(R.string.settings_recording_start),18,true),5);
+    autoRecordCheck=new CheckBox(this);
+    autoRecordCheck.setText(R.string.settings_auto_record_after_connection);
+    autoRecordCheck.setTextSize(13);
+    autoRecordCheck.setChecked(getPreferences(0).getBoolean("autoRecord",true));
+    add(sensors,autoRecordCheck,3);
+    autoRecordCheck.setOnCheckedChangeListener((v,value)->
+      getPreferences(0).edit().putBoolean("autoRecord",value).apply());
+    add(sensors,text(getString(R.string.settings_auto_record_hint),12,false),12);
     add(sensors,text(getString(R.string.settings_sensor_options),18,true),6);
     gpsCheck=new CheckBox(this);
     gpsCheck.setText(getString(R.string.ui_also_record_phone_gps_route_distance_pace));
@@ -401,7 +413,8 @@ public class MainActivity extends Activity {
     return missing;
   }
   private void restorePreviousDevice(){
-    if(!getSharedPreferences("last_ble_device",MODE_PRIVATE).contains("address"))return;
+    if(!AutoSessionPolicy.connectOnLaunch(autoConnectCheck.isChecked(),
+        getSharedPreferences("last_ble_device",MODE_PRIVATE).contains("address")))return;
     List<String> permissions=missingAutoPermissions(true);
     if(!permissions.isEmpty()){
       requestPermissions(permissions.toArray(new String[0]),AUTO_RESTORE_PERMISSION_REQUEST);
@@ -484,6 +497,8 @@ public class MainActivity extends Activity {
         toast(getString(R.string.ui_notification_permission_denied_speech_may_work));
     }
     else if(req==AUTO_RESTORE_PERMISSION_REQUEST){
+      // The user may turn off auto-connect while Android's permission dialog is open.
+      if(!autoConnectCheck.isChecked())return;
       if(Build.VERSION.SDK_INT>=31&&
           checkSelfPermission(Manifest.permission.BLUETOOTH_CONNECT)!=PackageManager.PERMISSION_GRANTED){
         toast(getString(R.string.ui_bluetooth_permission_denied_cannot_reconnect));
