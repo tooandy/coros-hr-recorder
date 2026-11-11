@@ -52,7 +52,7 @@ GitHub Actions builds the universal APK on every main branch push, PR and manual
 
 Default English resources: app/src/main/res/values/strings.xml. Simplified Chinese: app/src/main/res/values-zh/strings.xml. Check translation parity with python3 scripts/check_locales.py. The Android system chooses the appropriate locale automatically. A working Android TTS engine for that language is required for spoken output; Chinese devices may need to enable/download the Chinese speech pack.
 
-See [AGENTS.md](AGENTS.md) for contributor/agent instructions, [CHANGELOG.md](CHANGELOG.md) for history, and [v0.5.0 release notes](docs/releases/v0.5.0.md).
+See [AGENTS.md](AGENTS.md) for contributor/agent instructions, [CHANGELOG.md](CHANGELOG.md) for history, and [v0.5.1 release notes](docs/releases/v0.5.1.md) ([v0.5.0](docs/releases/v0.5.0.md)).
 
 ## License
 

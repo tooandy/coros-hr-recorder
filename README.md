@@ -65,7 +65,7 @@ APK 输出：app/build/outputs/apk/debug/app-debug.apk。图标源文件：asset
 
 默认英语资源位于 app/src/main/res/values/strings.xml；简体中文资源位于 values-zh/strings.xml。安卓根据系统语言加载对应资源。执行 python3 scripts/check_locales.py 验证两套键一致。
 
-开发与自动化代理须阅读 [AGENTS.md](AGENTS.md)。更新记录：[CHANGELOG.md](CHANGELOG.md)。首版公开发布说明：[v0.5.0](docs/releases/v0.5.0.md)。
+开发与自动化代理须阅读 [AGENTS.md](AGENTS.md)。更新记录：[CHANGELOG.md](CHANGELOG.md)。最新发布说明：[v0.5.1](docs/releases/v0.5.1.md)，首版公开发布：[v0.5.0](docs/releases/v0.5.0.md)。
 
 ## 许可与免责声明
 
